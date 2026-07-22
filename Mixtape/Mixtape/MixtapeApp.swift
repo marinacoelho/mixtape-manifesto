@@ -7,12 +7,17 @@
 
 import SwiftUI
 import FirebaseCore
+import FirebaseAppCheck
 
 @main
 struct MixtapeApp: App {
-    // CRITICAL: Safely configure Firebase before any managers or views are instantiated in App hierarchy
-    @State private var authManager = {
+    init() {
+        let providerFactory = AppCheckDebugProviderFactory()
+        AppCheck.setAppCheckProviderFactory(providerFactory)
         FirebaseApp.configure()
+    }
+
+    @State private var authManager = {
         return AuthManager()
     }()
     

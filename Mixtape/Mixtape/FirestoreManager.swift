@@ -12,8 +12,6 @@ import FirebaseFirestore
 @Observable
 final class FirestoreManager {
     static var customDatabaseID: String? = "mixtape-db"
-    
-    // CRITICAL: No inline initialization before FirebaseApp.configure()
     private var db: Firestore {
         if let dbId = FirestoreManager.customDatabaseID, !dbId.isEmpty {
             return Firestore.firestore(database: dbId)
