@@ -36,7 +36,7 @@ struct ShareLauncherSheetView: View {
                 HStack {
                     ZStack {
                         RoundedRectangle(cornerRadius: 14, style: .continuous)
-                            .fill(LinearGradient(colors: [.orange, .pink, .purple], startPoint: .topLeft, endPoint: .bottomRight))
+                            .fill(LinearGradient(colors: [.orange, .pink, .purple], startPoint: .topLeading, endPoint: .bottomTrailing))
                             .frame(width: 44, height: 44)
                         Image(systemName: "opticaldisc.fill")
                             .font(.system(size: 24))

@@ -38,7 +38,7 @@ final class FirestoreManager {
         stopAllListeners()
     }
     
-    private isolated func stopAllListeners() {
+    private func stopAllListeners() {
         // Note: Captured locally since deinit is isolated
     }
     

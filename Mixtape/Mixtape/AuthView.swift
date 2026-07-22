@@ -53,7 +53,7 @@ struct AuthView: View {
                 VStack(spacing: 12) {
                     ZStack {
                         RoundedRectangle(cornerRadius: 24, style: .continuous)
-                            .fill(LinearGradient(colors: [Color.orange, Color.pink, Color.purple], startPoint: .topLeft, endPoint: .bottomRight))
+                            .fill(LinearGradient(colors: [Color.orange, Color.pink, Color.purple], startPoint: .topLeading, endPoint: .bottomTrailing))
                             .frame(width: 80, height: 80)
                             .shadow(color: Color.pink.opacity(0.4), radius: 15, x: 0, y: 8)
                         

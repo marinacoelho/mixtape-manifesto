@@ -168,7 +168,7 @@ struct ChatView: View {
                         )
                         
                         // Send Trigger (Disabled until regex validation succeeds)
-                        Button(action: {
+                        Button(role: nil, action: {
                             let urlToSend = urlInput.trimmingCharacters(in: .whitespacesAndNewlines)
                             urlInput = ""
                             Task {
@@ -178,7 +178,7 @@ struct ChatView: View {
                         }) {
                             ZStack {
                                 Circle()
-                                    .fill(isValidLink ? LinearGradient(colors: [.pink, .purple], startPoint: .topLeft, endPoint: .bottomRight) : LinearGradient(colors: [Color.white.opacity(0.1), Color.white.opacity(0.1)], startPoint: .top, endPoint: .bottom))
+                                    .fill(isValidLink ? LinearGradient(colors: [.pink, .purple], startPoint: .topLeading, endPoint: .bottomTrailing) : LinearGradient(colors: [Color.white.opacity(0.1), Color.white.opacity(0.1)], startPoint: .top, endPoint: .bottom))
                                     .frame(width: 48, height: 48)
                                     .shadow(color: isValidLink ? Color.pink.opacity(0.5) : Color.clear, radius: 8, x: 0, y: 4)
                                 

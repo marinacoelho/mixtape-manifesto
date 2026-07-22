@@ -37,14 +37,14 @@ struct ContactListView: View {
                     Spacer()
                     
                     HStack(spacing: 12) {
-                        Button(action: {
+                        Button(role: nil, action: {
                             showAddContactModal = true
                         }) {
                             Image(systemName: "plus")
                                 .font(.system(size: 16, weight: .bold))
                                 .foregroundStyle(.white)
                                 .frame(width: 40, height: 40)
-                                .background(LinearGradient(colors: [.pink, .purple], startPoint: .topLeft, endPoint: .bottomRight))
+                                .background(LinearGradient(colors: [.pink, .purple], startPoint: .topLeading, endPoint: .bottomTrailing))
                                 .clipShape(Circle())
                                 .shadow(color: Color.pink.opacity(0.4), radius: 8, x: 0, y: 4)
                         }
@@ -248,7 +248,7 @@ struct ContactCardRow: View {
         HStack(spacing: 16) {
             ZStack {
                 Circle()
-                    .fill(LinearGradient(colors: [Color.pink.opacity(0.7), Color.purple.opacity(0.7)], startPoint: .topLeft, endPoint: .bottomRight))
+                    .fill(LinearGradient(colors: [Color.pink.opacity(0.7), Color.purple.opacity(0.7)], startPoint: .topLeading, endPoint: .bottomTrailing))
                     .frame(width: 50, height: 50)
                 
                 Text(String(contact.contactEmail.prefix(1)).uppercased())
