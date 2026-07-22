@@ -1,0 +1,160 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ===============================================================
+    // Assumed Data Model
+    // ===============================================================
+    //
+    // This security rules file assumes the following data structures:
+    //
+    // Collection: users
+    // Document ID: {uid} (matching Firebase Auth UID)
+    // Fields:
+    //   - uid: string (required, immutable) - User's Auth ID
+    //   - email: string (required, immutable) - User's Email
+    //   - createdAt: string (required, immutable) - ISO Timestamp of account creation
+    //
+    // Collection: contact_requests
+    // Document ID: {request_id} (e.g. REQ_12345 or auto-id)
+    // Fields:
+    //   - id: string (required, immutable) - Request Document ID
+    //   - fromUid: string (required, immutable) - Sender UID
+    //   - fromEmail: string (required, immutable) - Sender Email
+    //   - toUid: string (required, immutable) - Target Recipient UID
+    //   - status: string (required) - Can be 'pending', 'accepted', 'rejected'
+    //
+    // Collection: contacts/{user_uid}/user_contacts
+    // Document ID: {contact_uid} (matching contact's UID)
+    // Fields:
+    //   - contactUid: string (required, immutable) - Contact UID
+    //   - contactEmail: string (required, immutable) - Contact Email
+    //   - conversationId: string (required, immutable) - min(uidA, uidB) + '_' + max(uidA, uidB)
+    //
+    // Collection: conversations/{conversation_id}/messages
+    // Document ID: {message_id} (e.g. MSG_98765 or auto-id)
+    // Fields:
+    //   - id: string (required, immutable) - Message ID
+    //   - senderUid: string (required, immutable) - Sender UID
+    //   - timestamp: string (required, immutable) - ISO Timestamp of message
+    //   - originalUrl: string (required, immutable) - Raw streaming URL (< 500 chars)
+    //   - metadata: map (required, immutable) - Track Metadata
+    //
+    // ===============================================================
+
+    // ===============================================================
+    // Helper Functions
+    // ===============================================================
+
+    function isAuthenticated() {
+       return request.auth != null;
+    }
+
+    function isOwner(userId) {
+       return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    function isDocOwner() {
+       return isAuthenticated() && request.auth.uid == resource.data.uid;
+    }
+
+    function uidUnchanged() {
+       return !('uid' in request.resource.data) || request.resource.data.uid == request.auth.uid;
+    }
+
+    function uidNotModified() {
+       return !('uid' in request.resource.data) || request.resource.data.uid == resource.data.uid;
+    }
+
+    function hasRequiredFields(fields) {
+       return request.resource.data.keys().hasAll(fields);
+    }
+
+    function validStringLength(field, minLen, maxLen) {
+       return request.resource.data[field] is string &&
+         request.resource.data[field].size() >= minLen &&
+         request.resource.data[field].size() <= maxLen;
+    }
+
+    function isValidUrl(url) {
+       return url is string &&
+         (url.matches("^https://.*") || url.matches("^http://.*")) &&
+         url.size() < 1000;
+    }
+
+    function isValidEmail(email) {
+       return email is string &&
+         email.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$") &&
+         email.size() < 100;
+    }
+
+    // Domain Validators (CRITICAL: Use these in both create and update)
+    function isValidUser(data) {
+       return data.uid is string && data.uid.size() > 0 && data.uid.size() < 100 &&
+              data.email is string && isValidEmail(data.email) &&
+              data.createdAt is string && data.createdAt.size() < 50;
+    }
+
+    function isValidContactRequest(data) {
+       return data.id is string && data.id.size() > 0 && data.id.size() < 100 &&
+              data.fromUid is string && data.fromUid.size() > 0 && data.fromUid.size() < 100 &&
+              data.fromEmail is string && isValidEmail(data.fromEmail) &&
+              data.toUid is string && data.toUid.size() > 0 && data.toUid.size() < 100 &&
+              data.status is string && data.status in ['pending', 'accepted', 'rejected'];
+    }
+
+    function isValidUserContact(data) {
+       return data.contactUid is string && data.contactUid.size() > 0 && data.contactUid.size() < 100 &&
+              data.contactEmail is string && isValidEmail(data.contactEmail) &&
+              data.conversationId is string && data.conversationId.size() > 0 && data.conversationId.size() < 200;
+    }
+
+    function isValidMessage(data) {
+       return data.id is string && data.id.size() > 0 && data.id.size() < 100 &&
+              data.senderUid is string && data.senderUid.size() > 0 && data.senderUid.size() < 100 &&
+              data.timestamp is string && data.timestamp.size() < 50 &&
+              isValidUrl(data.originalUrl) &&
+              data.metadata is map &&
+              data.metadata.title is string && data.metadata.title.size() < 500 &&
+              data.metadata.artist is string && data.metadata.artist.size() < 500 &&
+              isValidUrl(data.metadata.spotifyUrl) &&
+              isValidUrl(data.metadata.appleMusicUrl);
+    }
+
+    // ===============================================================
+    // Collection Rules
+    // ===============================================================
+
+    // Users Collection
+    match /users/{userId} {
+      allow get: if isAuthenticated();
+      allow list: if isAuthenticated() && request.query.limit <= 10;
+      allow create: if isOwner(userId) && uidUnchanged() && hasRequiredFields(['uid', 'email', 'createdAt']) && isValidUser(request.resource.data);
+      allow update: if isOwner(userId) && uidNotModified() && isValidUser(request.resource.data) && request.resource.data.email == resource.data.email && request.resource.data.createdAt == resource.data.createdAt;
+      allow delete: if false;
+    }
+
+    // Contact Requests Collection
+    match /contact_requests/{requestId} {
+      allow read: if isAuthenticated() && (resource.data.fromUid == request.auth.uid || resource.data.toUid == request.auth.uid);
+      allow create: if isAuthenticated() && request.resource.data.fromUid == request.auth.uid && request.resource.data.status == 'pending' && hasRequiredFields(['id', 'fromUid', 'fromEmail', 'toUid', 'status']) && isValidContactRequest(request.resource.data);
+      allow update: if isAuthenticated() && resource.data.toUid == request.auth.uid && request.resource.data.fromUid == resource.data.fromUid && request.resource.data.fromEmail == resource.data.fromEmail && request.resource.data.toUid == resource.data.toUid && request.resource.data.id == resource.data.id && isValidContactRequest(request.resource.data) && request.resource.data.status in ['accepted', 'rejected'];
+      allow delete: if isAuthenticated() && (resource.data.fromUid == request.auth.uid || resource.data.toUid == request.auth.uid);
+    }
+
+    // Contacts Subcollection
+    match /contacts/{userId}/user_contacts/{contactId} {
+      allow read: if isOwner(userId);
+      allow create: if isOwner(userId) && hasRequiredFields(['contactUid', 'contactEmail', 'conversationId']) && isValidUserContact(request.resource.data);
+      allow update: if isOwner(userId) && isValidUserContact(request.resource.data) && request.resource.data.contactUid == resource.data.contactUid;
+      allow delete: if isOwner(userId);
+    }
+
+    // Conversations Messages
+    match /conversations/{conversationId}/messages/{messageId} {
+      allow read: if isAuthenticated() && conversationId.matches(".*" + request.auth.uid + ".*");
+      allow create: if isAuthenticated() && conversationId.matches(".*" + request.auth.uid + ".*") && request.resource.data.senderUid == request.auth.uid && hasRequiredFields(['id', 'senderUid', 'timestamp', 'originalUrl', 'metadata']) && isValidMessage(request.resource.data);
+      allow update, delete: if false;
+    }
+  }
+}

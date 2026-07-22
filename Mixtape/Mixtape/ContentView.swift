@@ -2,23 +2,28 @@
 //  ContentView.swift
 //  Mixtape
 //
-//  Created by Tim Condon on 22/07/2026.
+//  Created for Mixtape on 22/07/2026.
 //
 
 import SwiftUI
 
 struct ContentView: View {
+    @Environment(AuthManager.self) var authManager
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        Group {
+            if authManager.isAuthenticated {
+                NavigationStack {
+                    ContactListView()
+                }
+            } else {
+                AuthView()
+            }
         }
-        .padding()
     }
 }
 
 #Preview {
     ContentView()
+        .environment(AuthManager())
 }
