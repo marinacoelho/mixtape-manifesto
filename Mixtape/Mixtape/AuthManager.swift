@@ -107,6 +107,8 @@ final class AuthManager {
             try Auth.auth().signOut()
             self.isAuthenticated = false
             self.currentUser = nil
+            // Don't leave the signed-out user's contacts visible to the share extension
+            SharedContactsCache.clear()
         } catch {
             print("Error signing out: \(error)")
         }

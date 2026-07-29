@@ -7,21 +7,12 @@
 
 import SwiftUI
 
-struct ShareLauncherContact: Identifiable, Hashable, Sendable {
-    let id: String
-    let email: String
-    let conversationId: String
-}
-
 struct ShareLauncherSheetView: View {
     let sharedUrl: String
     let onDismiss: () -> Void
-    
-    @State private var contacts: [ShareLauncherContact] = [
-        ShareLauncherContact(id: "USER_B_UID", email: "sam@example.com", conversationId: "USER_A_UID_USER_B_UID"),
-        ShareLauncherContact(id: "USER_C_UID", email: "alex@example.com", conversationId: "USER_A_UID_USER_C_UID")
-    ]
-    @State private var selectedContact: ShareLauncherContact? = nil
+
+    @State private var contacts: [SharedContact] = []
+    @State private var selectedContact: SharedContact? = nil
     @State private var isSending = false
     @State private var sendSuccess = false
     
@@ -97,6 +88,26 @@ struct ShareLauncherSheetView: View {
                         .foregroundStyle(.white.opacity(0.5))
                         .padding(.horizontal, 8)
                     
+                    if contacts.isEmpty {
+                        VStack(spacing: 8) {
+                            Image(systemName: "person.2.slash")
+                                .font(.title2)
+                                .foregroundStyle(.white.opacity(0.4))
+                            Text("No contacts yet")
+                                .font(.subheadline)
+                                .fontWeight(.semibold)
+                                .foregroundStyle(.white.opacity(0.7))
+                            Text("Open Mixtape and add a contact to share music.")
+                                .font(.caption)
+                                .foregroundStyle(.white.opacity(0.5))
+                                .multilineTextAlignment(.center)
+                        }
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 24)
+                        .background(Color.white.opacity(0.04))
+                        .cornerRadius(16)
+                    }
+
                     VStack(spacing: 10) {
                         ForEach(contacts) { contact in
                             Button(action: {
@@ -186,6 +197,9 @@ struct ShareLauncherSheetView: View {
                 .disabled(selectedContact == nil || isSending)
             }
             .padding(24)
+        }
+        .onAppear {
+            contacts = SharedContactsCache.load()
         }
     }
 }

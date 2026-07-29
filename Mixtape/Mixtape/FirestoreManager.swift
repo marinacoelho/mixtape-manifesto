@@ -66,6 +66,10 @@ final class FirestoreManager {
                     return
                 }
                 self.activeContacts = documents.compactMap { try? $0.data(as: UserContact.self) }
+                // Mirror contacts into the App Group so the share extension can list them
+                SharedContactsCache.save(self.activeContacts.map {
+                    SharedContact(id: $0.contactUid, email: $0.contactEmail, conversationId: $0.conversationId)
+                })
             }
         
         // Incoming Requests

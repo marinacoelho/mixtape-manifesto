@@ -1,0 +1,44 @@
+//
+//  SharedContactsCache.swift
+//  Mixtape
+//
+//  Created for Mixtape on 29/07/2026.
+//
+//  Compiled into both the main app and the MixtapeShare extension.
+//  The main app writes its contact list here whenever Firestore updates;
+//  the share extension reads it to populate its recipient list.
+//
+
+import Foundation
+
+// MARK: - Shared Contact Snapshot
+struct SharedContact: Codable, Identifiable, Hashable, Sendable {
+    let id: String // contact uid
+    let email: String
+    let conversationId: String
+}
+
+// MARK: - App Group Cache
+enum SharedContactsCache {
+    static let appGroupID = "group.io.brokenhands.apps.MixtapeApp"
+    private static let contactsKey = "sharedContacts"
+
+    static func save(_ contacts: [SharedContact]) {
+        guard let defaults = UserDefaults(suiteName: appGroupID),
+              let data = try? JSONEncoder().encode(contacts) else { return }
+        defaults.set(data, forKey: contactsKey)
+    }
+
+    static func load() -> [SharedContact] {
+        guard let defaults = UserDefaults(suiteName: appGroupID),
+              let data = defaults.data(forKey: contactsKey),
+              let contacts = try? JSONDecoder().decode([SharedContact].self, from: data) else {
+            return []
+        }
+        return contacts
+    }
+
+    static func clear() {
+        UserDefaults(suiteName: appGroupID)?.removeObject(forKey: contactsKey)
+    }
+}
