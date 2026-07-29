@@ -17,16 +17,35 @@ import FirebaseVertexAI
 
 @MainActor
 struct AITranslator {
+    /// Forces Gemini to return JSON matching TrackMetadata's flat shape exactly
+    private static var trackMetadataConfig: GenerationConfig {
+        GenerationConfig(
+            responseMIMEType: "application/json",
+            responseSchema: .object(
+                properties: [
+                    "title": .string(),
+                    "artist": .string(),
+                    "album": .string(),
+                    "artworkUrl": .string(),
+                    "spotifyUrl": .string(),
+                    "appleMusicUrl": .string(),
+                ],
+                optionalProperties: ["album", "artworkUrl"]
+            )
+        )
+    }
+
     /// Calls Gemini 3.5 Flash directly from the client to parse metadata and resolve Spotify and Apple Music URLs.
     static func translateMusicLink(_ rawUrl: String) async throws -> TrackMetadata {
         let prompt = """
-        You are a music URL translator. Given this music link: \(rawUrl), extract the track metadata and return the direct web/deep links for both Spotify and Apple Music for this exact track in JSON format.
+        You are a music URL translator. Given this music link: \(rawUrl), extract the track metadata and return a single flat JSON object with these keys: \
+        "title", "artist", "album", "artworkUrl", "spotifyUrl" (direct Spotify web link for this exact track), "appleMusicUrl" (direct Apple Music web link for this exact track).
         """
-        
+
         #if canImport(FirebaseAILogic)
         // Initialize Gemini 3.5 Flash via Firebase AI Logic as per PRD
         let ai = FirebaseAI.firebaseAI(backend: .googleAI())
-        let model = ai.generativeModel(modelName: "gemini-3.5-flash-lite")
+        let model = ai.generativeModel(modelName: "gemini-3.5-flash-lite", generationConfig: trackMetadataConfig)
         do {
             let response = try await model.generateContent(prompt)
             if let text = response.text {
@@ -37,7 +56,7 @@ struct AITranslator {
         }
         #elseif canImport(FirebaseAI)
         let ai = FirebaseAI.firebaseAI()
-        let model = ai.generativeModel(modelName: "gemini-3.5-flash-lite")
+        let model = ai.generativeModel(modelName: "gemini-3.5-flash-lite", generationConfig: trackMetadataConfig)
         do {
             let response = try await model.generateContent(prompt)
             if let text = response.text {
@@ -68,12 +87,45 @@ struct AITranslator {
             return simulateMetadataTranslation(for: fallbackUrl)
         }
         
-        do {
-            return try JSONDecoder().decode(TrackMetadata.self, from: data)
-        } catch {
-            print("Decoding failed, falling back to simulated extraction: \(error)")
-            return simulateMetadataTranslation(for: fallbackUrl)
+        if let metadata = try? JSONDecoder().decode(TrackMetadata.self, from: data) {
+            return metadata
         }
+
+        // Tolerate the nested { "metadata": {...}, "links": {...} } shape the model sometimes returns
+        if let nested = try? JSONDecoder().decode(NestedTrackResponse.self, from: data) {
+            return TrackMetadata(
+                title: nested.metadata.title,
+                artist: nested.metadata.artist,
+                album: nested.metadata.album,
+                artworkUrl: nested.metadata.artworkUrl,
+                spotifyUrl: nested.links.spotify,
+                appleMusicUrl: nested.links.appleMusic
+            )
+        }
+
+        print("Decoding failed, falling back to simulated extraction. Response was: \(cleanJSON)")
+        return simulateMetadataTranslation(for: fallbackUrl)
+    }
+
+    /// Alternate response shape observed from Gemini when the schema isn't enforced
+    private struct NestedTrackResponse: Codable {
+        struct Metadata: Codable {
+            let title: String
+            let artist: String
+            let album: String?
+            let artworkUrl: String?
+        }
+        struct Links: Codable {
+            let spotify: String
+            let appleMusic: String
+
+            enum CodingKeys: String, CodingKey {
+                case spotify
+                case appleMusic = "apple_music"
+            }
+        }
+        let metadata: Metadata
+        let links: Links
     }
     
     /// Provides bulletproof fallback track resolution for hackathon speed & offline demos
