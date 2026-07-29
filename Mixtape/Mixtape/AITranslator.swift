@@ -26,7 +26,7 @@ struct AITranslator {
         #if canImport(FirebaseAILogic)
         // Initialize Gemini 3.5 Flash via Firebase AI Logic as per PRD
         let ai = FirebaseAI.firebaseAI(backend: .googleAI())
-        let model = ai.generativeModel(modelName: "gemini-3.5-flash")
+        let model = ai.generativeModel(modelName: "gemini-3.5-flash-lite")
         do {
             let response = try await model.generateContent(prompt)
             if let text = response.text {
@@ -37,7 +37,7 @@ struct AITranslator {
         }
         #elseif canImport(FirebaseAI)
         let ai = FirebaseAI.firebaseAI()
-        let model = ai.generativeModel(modelName: "gemini-3.5-flash")
+        let model = ai.generativeModel(modelName: "gemini-3.5-flash-lite")
         do {
             let response = try await model.generateContent(prompt)
             if let text = response.text {
