@@ -61,6 +61,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		2316BE72301A00C800C761AF /* Exceptions for "Mixtape" folder in "MixtapeShare" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				"GoogleService-Info.plist",
+			);
+			target = 23B7EB093010C9AE00109B7F /* MixtapeShare */;
+		};
 		23B7EB153010C9AE00109B7F /* Exceptions for "MixtapeShare" folder in "MixtapeShare" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -73,6 +80,9 @@
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		23B7EADE3010C99400109B7F /* Mixtape */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				2316BE72301A00C800C761AF /* Exceptions for "Mixtape" folder in "MixtapeShare" target */,
+			);
 			path = Mixtape;
 			sourceTree = "<group>";
 		};
@@ -536,7 +546,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = io.brokenhands.apps.Mixtape;
+				PRODUCT_BUNDLE_IDENTIFIER = io.brokenhands.apps.MixtapeApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
@@ -568,7 +578,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = io.brokenhands.apps.Mixtape;
+				PRODUCT_BUNDLE_IDENTIFIER = io.brokenhands.apps.MixtapeApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
@@ -680,7 +690,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = io.brokenhands.apps.Mixtape.MixtapeShare;
+				PRODUCT_BUNDLE_IDENTIFIER = io.brokenhands.apps.MixtapeApp.MixtapeShare;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
@@ -708,7 +718,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = io.brokenhands.apps.Mixtape.MixtapeShare;
+				PRODUCT_BUNDLE_IDENTIFIER = io.brokenhands.apps.MixtapeApp.MixtapeShare;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;

@@ -14,10 +14,11 @@ struct MixtapeApp: App {
     init() {
         let providerFactory = AppCheckDebugProviderFactory()
         AppCheck.setAppCheckProviderFactory(providerFactory)
-        FirebaseApp.configure()
+//        FirebaseApp.configure()
     }
 
     @State private var authManager = {
+        FirebaseApp.configure()
         return AuthManager()
     }()
     

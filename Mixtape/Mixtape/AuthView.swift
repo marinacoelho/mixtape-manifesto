@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import FirebaseCore
 
 struct AuthView: View {
     @Environment(AuthManager.self) var authManager
@@ -178,9 +179,21 @@ struct AuthView: View {
                 
                 Spacer()
             }
+            .padding(.horizontal, 16)
         }
         .onAppear {
             pulseAnimation = true
         }
     }
+}
+
+#Preview {
+    // AuthManager relies on a configured Firebase instance, so configure it
+    // once before building the preview's environment.
+    if FirebaseApp.app() == nil {
+        FirebaseApp.configure()
+    }
+    return AuthView()
+        .environment(AuthManager())
+        .preferredColorScheme(.dark)
 }
