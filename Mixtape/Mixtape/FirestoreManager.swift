@@ -168,8 +168,8 @@ final class FirestoreManager {
         isSending = true
         defer { isSending = false }
         
-        // Translate metadata using Gemini 3.5 Flash via client AITranslator
-        let metadata = try await AITranslator.translateMusicLink(url)
+        // Resolve metadata via the source platform's API, then search the other platform for the matching link
+        let metadata = try await MusicLinkResolver.resolve(url)
         
         let msgId = "MSG_\(UUID().uuidString.prefix(8))"
         let formatter = ISO8601DateFormatter()
