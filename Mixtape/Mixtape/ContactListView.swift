@@ -181,11 +181,9 @@ struct RequestCardView: View {
                     .font(.subheadline)
                     .fontWeight(.bold)
                     .foregroundStyle(.white)
-                // Show the email too so the recipient can verify who's really asking
-                Text("\(request.fromEmail) · Wants to swap mixtapes")
+                Text("Wants to swap mixtapes")
                     .font(.caption2)
                     .foregroundStyle(.white.opacity(0.6))
-                    .lineLimit(1)
             }
             
             Spacer()
@@ -268,10 +266,9 @@ struct ContactCardRow: View {
                     Circle()
                         .fill(Color.green)
                         .frame(width: 8, height: 8)
-                    Text(contact.contactEmail)
+                    Text("Ready for links")
                         .font(.caption2)
                         .foregroundStyle(.white.opacity(0.5))
-                        .lineLimit(1)
                 }
             }
             

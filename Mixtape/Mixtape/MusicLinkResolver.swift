@@ -51,15 +51,19 @@ struct MusicLinkResolver {
             throw ResolverError.unrecognizedLinkFormat
         }
 
+        // Search Apple Music in the sender's storefront so the resulting
+        // link carries catalog IDs that are valid in their country
+        let storefront = deviceStorefront()
+
         let source: SpotifyAPI.Item
         let appleMatch: AppleMusicAPI.Item?
         switch resource.kind {
         case "album":
             source = try await SpotifyAPI.shared.album(id: resource.id)
-            appleMatch = try? await AppleMusicAPI.searchAlbum(title: source.title, artist: source.artist)
+            appleMatch = try? await AppleMusicAPI.searchAlbum(title: source.title, artist: source.artist, storefront: storefront)
         default:
             source = try await SpotifyAPI.shared.track(id: resource.id)
-            appleMatch = try? await AppleMusicAPI.searchTrack(title: source.title, artist: source.artist)
+            appleMatch = try? await AppleMusicAPI.searchTrack(title: source.title, artist: source.artist, storefront: storefront)
         }
 
         return TrackMetadata(
@@ -111,6 +115,11 @@ struct MusicLinkResolver {
             }
         }
         return nil
+    }
+
+    /// The storefront of the device doing the resolving, e.g. "gb"
+    private static func deviceStorefront() -> String {
+        (Locale.current.region?.identifier ?? "us").lowercased()
     }
 
     /// The two-letter storefront that prefixes Apple Music paths, e.g. /gb/album/...

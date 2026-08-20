@@ -55,14 +55,14 @@ enum AppleMusicAPI {
 
     // MARK: - Search
 
-    static func searchTrack(title: String, artist: String) async throws -> Item? {
-        let results = try await search(term: "\(title) \(artist)", entity: "song")
+    static func searchTrack(title: String, artist: String, storefront: String) async throws -> Item? {
+        let results = try await search(term: "\(title) \(artist)", entity: "song", storefront: storefront)
         let match = bestMatch(in: results.filter { $0.wrapperType == "track" }, artist: artist)
         return match.flatMap(Item.init(track:))
     }
 
-    static func searchAlbum(title: String, artist: String) async throws -> Item? {
-        let results = try await search(term: "\(title) \(artist)", entity: "album")
+    static func searchAlbum(title: String, artist: String, storefront: String) async throws -> Item? {
+        let results = try await search(term: "\(title) \(artist)", entity: "album", storefront: storefront)
         let match = bestMatch(in: results.filter { $0.wrapperType == "collection" }, artist: artist)
         return match.flatMap(Item.init(album:))
     }
@@ -87,12 +87,15 @@ enum AppleMusicAPI {
         ])
     }
 
-    private static func search(term: String, entity: String) async throws -> [LookupResult] {
+    private static func search(term: String, entity: String, storefront: String) async throws -> [LookupResult] {
+        // Without an explicit country the API searches the US storefront, whose
+        // catalog IDs (and result URLs) aren't valid in other countries
         try await request(path: "search", queryItems: [
             URLQueryItem(name: "term", value: term),
             URLQueryItem(name: "entity", value: entity),
             URLQueryItem(name: "media", value: "music"),
             URLQueryItem(name: "limit", value: "10"),
+            URLQueryItem(name: "country", value: storefront),
         ])
     }
 
