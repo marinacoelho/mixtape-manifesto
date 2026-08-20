@@ -26,43 +26,6 @@ struct ChatView: View {
             Color(red: 0.05, green: 0.05, blue: 0.08).ignoresSafeArea()
             
             VStack(spacing: 0) {
-                // Chat Header
-                HStack(spacing: 12) {
-                    ZStack {
-                        Circle()
-                            .fill(LinearGradient(colors: [.pink, .purple], startPoint: .topLeading, endPoint: .bottomTrailing))
-                            .frame(width: 40, height: 40)
-                        Text(String(contact.contactName.prefix(1)).uppercased())
-                            .font(.headline)
-                            .fontWeight(.bold)
-                            .foregroundStyle(.white)
-                    }
-
-                    VStack(alignment: .leading, spacing: 2) {
-                        Text(contact.contactName)
-                            .font(.headline)
-                            .fontWeight(.bold)
-                            .foregroundStyle(.white)
-                        HStack(spacing: 4) {
-                            Image(systemName: "opticaldisc.fill")
-                                .font(.caption2)
-                                .foregroundStyle(Color.pink)
-                            Text("Link-Only Thread")
-                                .font(.caption2)
-                                .fontWeight(.medium)
-                                .foregroundStyle(Color.pink.opacity(0.9))
-                        }
-                    }
-                    Spacer()
-                }
-                .padding(.horizontal, 20)
-                .padding(.vertical, 14)
-                .background(Color.white.opacity(0.03))
-                .overlay(
-                    Rectangle().frame(height: 1).foregroundStyle(Color.white.opacity(0.06)),
-                    alignment: .bottom
-                )
-                
                 // Message History Stream
                 ScrollView {
                     ScrollViewReader { proxy in
@@ -200,6 +163,26 @@ struct ChatView: View {
             }
         }
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            // Contact identity lives in the nav bar, inline with the back button
+            ToolbarItem(placement: .principal) {
+                HStack(spacing: 8) {
+                    ZStack {
+                        Circle()
+                            .fill(LinearGradient(colors: [.pink, .purple], startPoint: .topLeading, endPoint: .bottomTrailing))
+                            .frame(width: 30, height: 30)
+                        Text(String(contact.contactName.prefix(1)).uppercased())
+                            .font(.footnote)
+                            .fontWeight(.bold)
+                            .foregroundStyle(.white)
+                    }
+                    Text(contact.contactName)
+                        .font(.headline)
+                        .fontWeight(.bold)
+                        .foregroundStyle(.white)
+                }
+            }
+        }
         .task(id: contact.conversationId) {
             firestoreManager.startListeningMessages(for: contact.conversationId)
         }
