@@ -27,7 +27,7 @@ struct ContactListView: View {
                                 LinearGradient(colors: [.orange, .pink, .purple], startPoint: .leading, endPoint: .trailing)
                             )
                         if let user = authManager.currentUser {
-                            Text("\(user.name) · \(user.email)")
+                            Text("\(user.displayName) · \(user.email)")
                                 .font(.caption2)
                                 .fontWeight(.semibold)
                                 .foregroundStyle(.white.opacity(0.5))
@@ -177,7 +177,7 @@ struct RequestCardView: View {
             }
             
             VStack(alignment: .leading, spacing: 4) {
-                Text(request.senderName)
+                Text(request.fromName)
                     .font(.subheadline)
                     .fontWeight(.bold)
                     .foregroundStyle(.white)
@@ -253,14 +253,14 @@ struct ContactCardRow: View {
                     .fill(LinearGradient(colors: [Color.pink.opacity(0.7), Color.purple.opacity(0.7)], startPoint: .topLeading, endPoint: .bottomTrailing))
                     .frame(width: 50, height: 50)
                 
-                Text(String(contact.name.prefix(1)).uppercased())
+                Text(String(contact.contactName.prefix(1)).uppercased())
                     .font(.title2)
                     .fontWeight(.bold)
                     .foregroundStyle(.white)
             }
 
             VStack(alignment: .leading, spacing: 4) {
-                Text(contact.name)
+                Text(contact.contactName)
                     .font(.headline)
                     .foregroundStyle(.white)
 

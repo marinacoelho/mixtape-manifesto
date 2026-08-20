@@ -32,14 +32,14 @@ struct ChatView: View {
                         Circle()
                             .fill(LinearGradient(colors: [.pink, .purple], startPoint: .topLeading, endPoint: .bottomTrailing))
                             .frame(width: 40, height: 40)
-                        Text(String(contact.name.prefix(1)).uppercased())
+                        Text(String(contact.contactName.prefix(1)).uppercased())
                             .font(.headline)
                             .fontWeight(.bold)
                             .foregroundStyle(.white)
                     }
 
                     VStack(alignment: .leading, spacing: 2) {
-                        Text(contact.name)
+                        Text(contact.contactName)
                             .font(.headline)
                             .fontWeight(.bold)
                             .foregroundStyle(.white)

@@ -15,15 +15,8 @@ import Foundation
 struct SharedContact: Codable, Identifiable, Hashable, Sendable {
     let id: String // contact uid
     let email: String
-    // Optional so caches written before display names existed still decode
-    let name: String?
+    let name: String
     let conversationId: String
-
-    /// Name to show in the share sheet, falling back to the email's local part
-    var displayLabel: String {
-        if let name, !name.isEmpty { return name }
-        return String(email.split(separator: "@").first ?? "Friend")
-    }
 }
 
 // MARK: - App Group Cache

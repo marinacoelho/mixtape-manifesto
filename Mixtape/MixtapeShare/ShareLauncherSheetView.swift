@@ -118,14 +118,14 @@ struct ShareLauncherSheetView: View {
                                         .fill(LinearGradient(colors: [.pink, .purple], startPoint: .top, endPoint: .bottom))
                                         .frame(width: 38, height: 38)
                                         .overlay(
-                                            Text(String(contact.displayLabel.prefix(1)).uppercased())
+                                            Text(String(contact.name.prefix(1)).uppercased())
                                                 .font(.subheadline)
                                                 .fontWeight(.bold)
                                                 .foregroundStyle(.white)
                                         )
 
                                     VStack(alignment: .leading, spacing: 2) {
-                                        Text(contact.displayLabel)
+                                        Text(contact.name)
                                             .font(.headline)
                                             .foregroundStyle(.white)
                                         Text(contact.email)

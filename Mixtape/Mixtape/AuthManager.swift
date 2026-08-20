@@ -54,15 +54,18 @@ final class AuthManager {
                 if let appUser = try? doc.data(as: AppUser.self) {
                     self.currentUser = appUser
                 } else {
+                    // Recovery path: the auth account exists but its user doc is missing
+                    // (e.g. the sign-up write failed). The chosen name is gone, so repair
+                    // the doc with the only identity we still have.
                     let formatter = ISO8601DateFormatter()
-                    let newUser = AppUser(uid: uid, email: email, createdAt: formatter.string(from: Date()), displayName: nil)
+                    let newUser = AppUser(uid: uid, email: email, createdAt: formatter.string(from: Date()), displayName: String(email.split(separator: "@").first ?? ""))
                     try db.collection("users").document(uid).setData(from: newUser)
                     self.currentUser = newUser
                 }
             } catch {
                 print("Error fetching user document: \(error)")
                 let formatter = ISO8601DateFormatter()
-                self.currentUser = AppUser(uid: uid, email: email, createdAt: formatter.string(from: Date()), displayName: nil)
+                self.currentUser = AppUser(uid: uid, email: email, createdAt: formatter.string(from: Date()), displayName: String(email.split(separator: "@").first ?? ""))
             }
         }
     }
@@ -93,7 +96,7 @@ final class AuthManager {
             let uid = result.user.uid
             let formatter = ISO8601DateFormatter()
             let cleanName = name.trimmingCharacters(in: .whitespacesAndNewlines)
-            let newUser = AppUser(uid: uid, email: email, createdAt: formatter.string(from: Date()), displayName: cleanName.isEmpty ? nil : cleanName)
+            let newUser = AppUser(uid: uid, email: email, createdAt: formatter.string(from: Date()), displayName: cleanName)
             try db.collection("users").document(uid).setData(from: newUser)
             self.currentUser = newUser
             self.isAuthenticated = true
