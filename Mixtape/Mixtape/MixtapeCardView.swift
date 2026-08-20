@@ -118,13 +118,13 @@ struct MixtapeCardView: View {
                     }
                 }
                 
-                // Timestamp and Gemini logic Tag
+                // Timestamp and platform-match Tag
                 HStack {
                     HStack(spacing: 4) {
                         Image(systemName: "sparkles")
                             .font(.caption2)
                             .foregroundStyle(Color.purple)
-                        Text("Resolved via Gemini 3.5 Flash")
+                        Text("Matched on Spotify & Apple Music")
                             .font(.system(size: 10, weight: .semibold))
                             .foregroundStyle(.white.opacity(0.5))
                     }

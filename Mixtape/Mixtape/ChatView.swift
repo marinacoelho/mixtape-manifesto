@@ -82,7 +82,7 @@ struct ChatView: View {
                                         .font(.headline)
                                         .foregroundStyle(.white.opacity(0.9))
                                     
-                                    Text("Paste a Spotify or Apple Music link below. Our Gemini 3.5 Flash AI will automatically translate it and render dual launch buttons for both platforms!")
+                                    Text("Paste a Spotify or Apple Music link below. Mixtape automatically finds the matching track and renders launch buttons for both platforms!")
                                         .font(.caption)
                                         .foregroundStyle(.white.opacity(0.5))
                                         .multilineTextAlignment(.center)

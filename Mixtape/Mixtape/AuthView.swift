@@ -72,7 +72,7 @@ struct AuthView: View {
                         .font(.system(size: 38, weight: .black, design: .rounded))
                         .foregroundStyle(.white)
                     
-                    Text("The AI peacekeeper for the streaming wars.")
+                    Text("The peacekeeper for the streaming wars.")
                         .font(.subheadline)
                         .fontWeight(.medium)
                         .foregroundStyle(.white.opacity(0.75))

@@ -27,7 +27,7 @@ struct ContactListView: View {
                                 LinearGradient(colors: [.orange, .pink, .purple], startPoint: .leading, endPoint: .trailing)
                             )
                         if let user = authManager.currentUser {
-                            Text("\(user.displayName) · \(user.email)")
+                            Text(user.displayName)
                                 .font(.caption2)
                                 .fontWeight(.semibold)
                                 .foregroundStyle(.white.opacity(0.5))

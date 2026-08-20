@@ -176,7 +176,7 @@ struct ShareLauncherSheetView: View {
                     HStack {
                         if isSending {
                             ProgressView().tint(.white)
-                            Text("Gemini Resolving & Sending...")
+                            Text("Resolving & Sending...")
                                 .font(.headline)
                                 .fontWeight(.bold)
                         } else if sendSuccess {
