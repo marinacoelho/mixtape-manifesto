@@ -10,5 +10,11 @@
     "edition": "enterprise",
     "database": "mixtape-db",
     "location": "europe-west2"
-  }
+  },
+  "functions": [
+    {
+      "source": "functions",
+      "codebase": "default"
+    }
+  ]
 }
