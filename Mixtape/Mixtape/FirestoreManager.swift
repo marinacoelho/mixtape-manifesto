@@ -21,6 +21,9 @@ final class FirestoreManager {
     }
     
     var activeContacts: [UserContact] = []
+    /// False until the first contacts snapshot arrives, so views can show a
+    /// loading state instead of a premature "no contacts" empty state
+    var hasLoadedContacts: Bool = false
     var incomingRequests: [ContactRequest] = []
     var messages: [Message] = []
     var errorMessage: String? = nil
@@ -55,13 +58,17 @@ final class FirestoreManager {
     // MARK: - Listen to Contacts and Incoming Requests
     func startListeningContacts(for userId: String) {
         stopListeningContacts()
-        
+        hasLoadedContacts = false
+
         // Active Contacts
         contactsListener = db.collection("contacts")
             .document(userId)
             .collection("user_contacts")
             .addSnapshotListener { [weak self] snapshot, error in
-                guard let self = self, let documents = snapshot?.documents else {
+                guard let self = self else { return }
+                // Even on error, stop showing the loading state
+                self.hasLoadedContacts = true
+                guard let documents = snapshot?.documents else {
                     if let error = error { print("Error listening contacts: \(error)") }
                     return
                 }

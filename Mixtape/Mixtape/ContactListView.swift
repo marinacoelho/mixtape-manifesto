@@ -107,7 +107,18 @@ struct ContactListView: View {
                                 .foregroundStyle(Color.white.opacity(0.5))
                                 .padding(.horizontal, 24)
                             
-                            if firestoreManager.activeContacts.isEmpty {
+                            if !firestoreManager.hasLoadedContacts {
+                                VStack(spacing: 16) {
+                                    ProgressView()
+                                        .tint(Color.pink)
+                                        .controlSize(.large)
+                                    Text("Loading contacts...")
+                                        .font(.subheadline)
+                                        .foregroundStyle(.white.opacity(0.5))
+                                }
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 48)
+                            } else if firestoreManager.activeContacts.isEmpty {
                                 VStack(spacing: 16) {
                                     Image(systemName: "music.note.list")
                                         .font(.system(size: 40))
