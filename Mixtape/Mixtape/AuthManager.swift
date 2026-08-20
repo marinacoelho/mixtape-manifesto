@@ -55,14 +55,14 @@ final class AuthManager {
                     self.currentUser = appUser
                 } else {
                     let formatter = ISO8601DateFormatter()
-                    let newUser = AppUser(uid: uid, email: email, createdAt: formatter.string(from: Date()))
+                    let newUser = AppUser(uid: uid, email: email, createdAt: formatter.string(from: Date()), displayName: nil)
                     try db.collection("users").document(uid).setData(from: newUser)
                     self.currentUser = newUser
                 }
             } catch {
                 print("Error fetching user document: \(error)")
                 let formatter = ISO8601DateFormatter()
-                self.currentUser = AppUser(uid: uid, email: email, createdAt: formatter.string(from: Date()))
+                self.currentUser = AppUser(uid: uid, email: email, createdAt: formatter.string(from: Date()), displayName: nil)
             }
         }
     }
@@ -83,16 +83,17 @@ final class AuthManager {
         }
     }
     
-    func signUp(email: String, password: String) async throws {
+    func signUp(name: String, email: String, password: String) async throws {
         isLoading = true
         errorMessage = nil
         defer { isLoading = false }
-        
+
         do {
             let result = try await Auth.auth().createUser(withEmail: email, password: password)
             let uid = result.user.uid
             let formatter = ISO8601DateFormatter()
-            let newUser = AppUser(uid: uid, email: email, createdAt: formatter.string(from: Date()))
+            let cleanName = name.trimmingCharacters(in: .whitespacesAndNewlines)
+            let newUser = AppUser(uid: uid, email: email, createdAt: formatter.string(from: Date()), displayName: cleanName.isEmpty ? nil : cleanName)
             try db.collection("users").document(uid).setData(from: newUser)
             self.currentUser = newUser
             self.isAuthenticated = true

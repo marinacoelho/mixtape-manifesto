@@ -26,8 +26,8 @@ struct ContactListView: View {
                             .foregroundStyle(
                                 LinearGradient(colors: [.orange, .pink, .purple], startPoint: .leading, endPoint: .trailing)
                             )
-                        if let email = authManager.currentUser?.email {
-                            Text(email)
+                        if let user = authManager.currentUser {
+                            Text("\(user.name) · \(user.email)")
                                 .font(.caption2)
                                 .fontWeight(.semibold)
                                 .foregroundStyle(.white.opacity(0.5))
@@ -177,13 +177,15 @@ struct RequestCardView: View {
             }
             
             VStack(alignment: .leading, spacing: 4) {
-                Text(request.fromEmail)
+                Text(request.senderName)
                     .font(.subheadline)
                     .fontWeight(.bold)
                     .foregroundStyle(.white)
-                Text("Wants to swap mixtapes")
+                // Show the email too so the recipient can verify who's really asking
+                Text("\(request.fromEmail) · Wants to swap mixtapes")
                     .font(.caption2)
                     .foregroundStyle(.white.opacity(0.6))
+                    .lineLimit(1)
             }
             
             Spacer()
@@ -251,24 +253,25 @@ struct ContactCardRow: View {
                     .fill(LinearGradient(colors: [Color.pink.opacity(0.7), Color.purple.opacity(0.7)], startPoint: .topLeading, endPoint: .bottomTrailing))
                     .frame(width: 50, height: 50)
                 
-                Text(String(contact.contactEmail.prefix(1)).uppercased())
+                Text(String(contact.name.prefix(1)).uppercased())
                     .font(.title2)
                     .fontWeight(.bold)
                     .foregroundStyle(.white)
             }
-            
+
             VStack(alignment: .leading, spacing: 4) {
-                Text(contact.contactEmail)
+                Text(contact.name)
                     .font(.headline)
                     .foregroundStyle(.white)
-                
+
                 HStack(spacing: 6) {
                     Circle()
                         .fill(Color.green)
                         .frame(width: 8, height: 8)
-                    Text("Ready for links")
+                    Text(contact.contactEmail)
                         .font(.caption2)
                         .foregroundStyle(.white.opacity(0.5))
+                        .lineLimit(1)
                 }
             }
             

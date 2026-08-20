@@ -10,6 +10,7 @@ import FirebaseCore
 
 struct AuthView: View {
     @Environment(AuthManager.self) var authManager
+    @State private var name = ""
     @State private var email = ""
     @State private var password = ""
     @State private var isSignUp = false
@@ -87,6 +88,22 @@ struct AuthView: View {
                         .frame(maxWidth: .infinity, alignment: .leading)
                     
                     VStack(spacing: 14) {
+                        if isSignUp {
+                            HStack {
+                                Image(systemName: "person.fill")
+                                    .foregroundStyle(.white.opacity(0.6))
+                                    .frame(width: 20)
+                                TextField("Your name", text: $name)
+                                    .textInputAutocapitalization(.words)
+                                    .autocorrectionDisabled(true)
+                                    .foregroundStyle(.white)
+                            }
+                            .padding()
+                            .background(Color.white.opacity(0.08))
+                            .cornerRadius(14)
+                            .transition(.opacity.combined(with: .move(edge: .top)))
+                        }
+
                         HStack {
                             Image(systemName: "envelope.fill")
                                 .foregroundStyle(.white.opacity(0.6))
@@ -124,7 +141,7 @@ struct AuthView: View {
                         Task {
                             do {
                                 if isSignUp {
-                                    try await authManager.signUp(email: email, password: password)
+                                    try await authManager.signUp(name: name, email: email, password: password)
                                 } else {
                                     try await authManager.signIn(email: email, password: password)
                                 }
@@ -150,8 +167,8 @@ struct AuthView: View {
                         .cornerRadius(14)
                         .shadow(color: Color.purple.opacity(0.35), radius: 10, x: 0, y: 5)
                     }
-                    .disabled(authManager.isLoading || email.isEmpty || password.isEmpty)
-                    .opacity(email.isEmpty || password.isEmpty ? 0.6 : 1.0)
+                    .disabled(authManager.isLoading || email.isEmpty || password.isEmpty || (isSignUp && name.trimmingCharacters(in: .whitespaces).isEmpty))
+                    .opacity(email.isEmpty || password.isEmpty || (isSignUp && name.trimmingCharacters(in: .whitespaces).isEmpty) ? 0.6 : 1.0)
                 }
                 .padding(24)
                 .background(
