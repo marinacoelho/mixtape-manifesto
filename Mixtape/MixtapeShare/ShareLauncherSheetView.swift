@@ -15,6 +15,7 @@ struct ShareLauncherSheetView: View {
     @State private var selectedContact: SharedContact? = nil
     @State private var isSending = false
     @State private var sendSuccess = false
+    @State private var errorMessage: String? = nil
     
     var isSpotify: Bool { sharedUrl.contains("spotify.com") }
     
@@ -160,17 +161,34 @@ struct ShareLauncherSheetView: View {
                 }
                 
                 Spacer()
-                
+
+                if let errorMessage {
+                    HStack(spacing: 6) {
+                        Image(systemName: "exclamationmark.triangle.fill")
+                            .foregroundStyle(Color.orange)
+                        Text(errorMessage)
+                            .font(.caption)
+                            .foregroundStyle(Color.orange)
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                }
+
                 // Dispatch Button
                 Button(action: {
-                    guard selectedContact != nil else { return }
+                    guard let contact = selectedContact else { return }
+                    errorMessage = nil
                     isSending = true
                     Task {
-                        try? await Task.sleep(for: .seconds(1.2))
-                        isSending = false
-                        sendSuccess = true
-                        try? await Task.sleep(for: .seconds(0.8))
-                        onDismiss()
+                        do {
+                            try await ShareSender.send(url: sharedUrl, to: contact)
+                            isSending = false
+                            sendSuccess = true
+                            try? await Task.sleep(for: .seconds(0.8))
+                            onDismiss()
+                        } catch {
+                            isSending = false
+                            errorMessage = error.localizedDescription
+                        }
                     }
                 }) {
                     HStack {

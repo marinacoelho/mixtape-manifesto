@@ -8,12 +8,26 @@
 import UIKit
 import SwiftUI
 import UniformTypeIdentifiers
+import FirebaseCore
+import FirebaseAuth
 
 class ShareViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .clear
-        
+
+        // The extension is its own process, so Firebase needs configuring here
+        // too. GoogleService-Info.plist is already a member of this target.
+        if FirebaseApp.app() == nil {
+            FirebaseApp.configure()
+        }
+        // Read the auth session the main app stored in the shared keychain group
+        do {
+            try Auth.auth().useUserAccessGroup(SharedConfig.keychainAccessGroup)
+        } catch {
+            print("Failed to use shared keychain access group: \(error)")
+        }
+
         extractSharedURL { [weak self] url in
             guard let self = self else { return }
             DispatchQueue.main.async {

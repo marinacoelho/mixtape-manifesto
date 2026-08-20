@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		232395B4303706DC008CEFE1 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 232395B3303706DC008CEFE1 /* FirebaseMessaging */; };
+		232395BE30373D41008CEFE1 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 232395BD30373D41008CEFE1 /* FirebaseAuth */; };
+		232395C030373D41008CEFE1 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 232395BF30373D41008CEFE1 /* FirebaseFirestore */; };
 		23B7EB143010C9AE00109B7F /* MixtapeShare.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 23B7EB0A3010C9AE00109B7F /* MixtapeShare.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		23B7EB343010D3C500109B7F /* FirebaseAI in Frameworks */ = {isa = PBXBuildFile; productRef = 23B7EB333010D3C500109B7F /* FirebaseAI */; };
 		23B7EB363010D3C500109B7F /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 23B7EB353010D3C500109B7F /* FirebaseAuth */; };
@@ -65,8 +67,14 @@
 		2316BE76301A05A100C761AF /* Exceptions for "Mixtape" folder in "MixtapeShare" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				AppleMusicAPI.swift,
 				"GoogleService-Info.plist",
+				Models.swift,
+				MusicLinkResolver.swift,
+				Secrets.swift,
 				SharedContactsCache.swift,
+				SpotifyAPI.swift,
+				URLValidator.swift,
 			);
 			target = 23B7EB093010C9AE00109B7F /* MixtapeShare */;
 		};
@@ -140,6 +148,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				232395BE30373D41008CEFE1 /* FirebaseAuth in Frameworks */,
+				232395C030373D41008CEFE1 /* FirebaseFirestore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -272,6 +282,8 @@
 			);
 			name = MixtapeShare;
 			packageProductDependencies = (
+				232395BD30373D41008CEFE1 /* FirebaseAuth */,
+				232395BF30373D41008CEFE1 /* FirebaseFirestore */,
 			);
 			productName = MixtapeShare;
 			productReference = 23B7EB0A3010C9AE00109B7F /* MixtapeShare.appex */;
@@ -804,6 +816,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 23B7EB323010D3C500109B7F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseMessaging;
+		};
+		232395BD30373D41008CEFE1 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 23B7EB323010D3C500109B7F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		232395BF30373D41008CEFE1 /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 23B7EB323010D3C500109B7F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
 		};
 		23B7EB333010D3C500109B7F /* FirebaseAI */ = {
 			isa = XCSwiftPackageProductDependency;

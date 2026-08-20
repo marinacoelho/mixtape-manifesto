@@ -11,6 +11,14 @@
 
 import Foundation
 
+// MARK: - Cross-Target Configuration
+enum SharedConfig {
+    /// Keychain access group shared by the app and extension so the Firebase
+    /// Auth session is visible to both. The prefix is the development team ID.
+    static let keychainAccessGroup = "YWLW23LT6G.io.brokenhands.apps.MixtapeApp"
+    static let firestoreDatabaseID = "mixtape-db"
+}
+
 // MARK: - Shared Contact Snapshot
 struct SharedContact: Codable, Identifiable, Hashable, Sendable {
     let id: String // contact uid

@@ -29,6 +29,13 @@ final class AuthManager {
     }
     
     init() {
+        // Store the auth session in the shared keychain group so the share
+        // extension can act as the signed-in user
+        do {
+            try Auth.auth().useUserAccessGroup(SharedConfig.keychainAccessGroup)
+        } catch {
+            print("Failed to use shared keychain access group: \(error)")
+        }
         setupAuthListener()
     }
     

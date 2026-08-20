@@ -11,7 +11,7 @@ import FirebaseFirestore
 @MainActor
 @Observable
 final class FirestoreManager {
-    static var customDatabaseID: String? = "mixtape-db"
+    static var customDatabaseID: String? = SharedConfig.firestoreDatabaseID
     private var db: Firestore {
         if let dbId = FirestoreManager.customDatabaseID, !dbId.isEmpty {
             return Firestore.firestore(database: dbId)
