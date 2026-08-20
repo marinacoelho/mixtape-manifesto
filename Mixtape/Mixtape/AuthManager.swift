@@ -105,6 +105,10 @@ final class AuthManager {
     
     func signOut() {
         do {
+            // Detach this device's push token before we lose the uid
+            if let uid = currentUser?.uid {
+                NotificationManager.shared.clearToken(for: uid)
+            }
             try Auth.auth().signOut()
             self.isAuthenticated = false
             self.currentUser = nil

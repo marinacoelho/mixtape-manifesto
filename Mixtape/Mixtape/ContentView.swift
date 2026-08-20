@@ -20,6 +20,14 @@ struct ContentView: View {
                 AuthView()
             }
         }
+        // Ask for push permission once signed in, and tie this device's
+        // FCM token to whichever user is active
+        .task(id: authManager.currentUser?.uid) {
+            NotificationManager.shared.associate(uid: authManager.currentUser?.uid)
+            if authManager.currentUser != nil {
+                await NotificationManager.shared.requestAuthorizationAndRegister()
+            }
+        }
     }
 }
 
