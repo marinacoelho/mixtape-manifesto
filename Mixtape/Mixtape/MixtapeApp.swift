@@ -30,13 +30,15 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
 struct MixtapeApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
 
-    init() {
-        let providerFactory = AppCheckDebugProviderFactory()
-        AppCheck.setAppCheckProviderFactory(providerFactory)
-//        FirebaseApp.configure()
-    }
-
     @State private var authManager = {
+        // The App Check factory must be registered before FirebaseApp.configure().
+        // Debug builds use the debug provider (token registered in the Firebase
+        // console); release/TestFlight builds attest with real DeviceCheck.
+        #if DEBUG
+        AppCheck.setAppCheckProviderFactory(AppCheckDebugProviderFactory())
+        #else
+        AppCheck.setAppCheckProviderFactory(DeviceCheckProviderFactory())
+        #endif
         FirebaseApp.configure()
         return AuthManager()
     }()
