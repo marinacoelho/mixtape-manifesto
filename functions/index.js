@@ -11,6 +11,54 @@ const DATABASE_ID = "mixtape-db";
 // Conversation IDs are "<uid1>_<uid2>" (sorted), so the recipient is
 // whichever uid isn't the sender. Fires for writes from the app and,
 // later, the share extension alike.
+// Notify the target user when someone sends them a contact request.
+exports.notifyOnContactRequest = onDocumentCreated(
+  {
+    document: "contact_requests/{requestId}",
+    database: DATABASE_ID,
+    region: "europe-west2",
+  },
+  async (event) => {
+    const snapshot = event.data;
+    if (!snapshot) return;
+    const request = snapshot.data();
+    if (request.status !== "pending") return;
+
+    const db = getFirestore(DATABASE_ID);
+    const recipientDoc = await db.doc(`users/${request.toUid}`).get();
+    const token = recipientDoc.get("fcmToken");
+    if (!token) {
+      console.log(`No FCM token for ${request.toUid}, skipping notification`);
+      return;
+    }
+
+    try {
+      await getMessaging().send({
+        token,
+        notification: {
+          title: "New Connection Request",
+          body: `${request.fromName} wants to swap mixtapes with you 🤝`,
+        },
+        apns: {
+          payload: {
+            aps: { sound: "default" },
+          },
+        },
+      });
+      console.log(`Notified ${request.toUid} about request ${event.params.requestId}`);
+    } catch (error) {
+      if (error.code === "messaging/registration-token-not-registered") {
+        await db
+          .doc(`users/${request.toUid}`)
+          .update({ fcmToken: FieldValue.delete() });
+        console.log(`Removed dead FCM token for ${request.toUid}`);
+      } else {
+        throw error;
+      }
+    }
+  }
+);
+
 exports.notifyOnMixtape = onDocumentCreated(
   {
     document: "conversations/{conversationId}/messages/{messageId}",
@@ -42,9 +90,7 @@ exports.notifyOnMixtape = onDocumentCreated(
       return;
     }
 
-    const senderName =
-      senderDoc.get("displayName") ||
-      (senderDoc.get("email") || "A friend").split("@")[0];
+    const senderName = senderDoc.get("displayName");
     const body = msg.metadata
       ? `${msg.metadata.title} — ${msg.metadata.artist}`
       : "Open Mixtape to listen";
