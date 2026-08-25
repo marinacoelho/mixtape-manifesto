@@ -1,0 +1,21 @@
+{
+  "name": "mixtape-functions",
+  "description": "Cloud Functions for Mixtape push notifications",
+  "main": "index.js",
+  "engines": {
+    "node": "24"
+  },
+  "dependencies": {
+    "firebase-admin": "^14.3.0",
+    "firebase-functions": "^7.3.2"
+  },
+  "private": true,
+  "overrides": {
+    "uuid": "^11.1.1",
+    "rimraf": "^6"
+  },
+  "allowScripts": {
+    "@firebase/util@1.15.3": true,
+    "protobufjs@7.6.5": true
+  }
+}

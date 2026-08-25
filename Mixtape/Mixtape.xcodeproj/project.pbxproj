@@ -1,0 +1,858 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		232395B4303706DC008CEFE1 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 232395B3303706DC008CEFE1 /* FirebaseMessaging */; };
+		232395BE30373D41008CEFE1 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 232395BD30373D41008CEFE1 /* FirebaseAuth */; };
+		232395C030373D41008CEFE1 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 232395BF30373D41008CEFE1 /* FirebaseFirestore */; };
+		23B7EB143010C9AE00109B7F /* MixtapeShare.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 23B7EB0A3010C9AE00109B7F /* MixtapeShare.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		23B7EB343010D3C500109B7F /* FirebaseAI in Frameworks */ = {isa = PBXBuildFile; productRef = 23B7EB333010D3C500109B7F /* FirebaseAI */; };
+		23B7EB363010D3C500109B7F /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 23B7EB353010D3C500109B7F /* FirebaseAuth */; };
+		23B7EB383010D3C500109B7F /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 23B7EB373010D3C500109B7F /* FirebaseStorage */; };
+		23B7EB3B3010D90F00109B7F /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 23B7EB3A3010D90F00109B7F /* FirebaseFirestore */; };
+		23B7EB3D3010E0A900109B7F /* FirebaseAppCheck in Frameworks */ = {isa = PBXBuildFile; productRef = 23B7EB3C3010E0A900109B7F /* FirebaseAppCheck */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		23B7EAEA3010C99700109B7F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 23B7EAD43010C99400109B7F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 23B7EADB3010C99400109B7F;
+			remoteInfo = Mixtape;
+		};
+		23B7EAF43010C99700109B7F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 23B7EAD43010C99400109B7F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 23B7EADB3010C99400109B7F;
+			remoteInfo = Mixtape;
+		};
+		23B7EB123010C9AE00109B7F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 23B7EAD43010C99400109B7F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 23B7EB093010C9AE00109B7F;
+			remoteInfo = MixtapeShare;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		23B7EB193010C9AE00109B7F /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				23B7EB143010C9AE00109B7F /* MixtapeShare.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		23B7EADC3010C99400109B7F /* Mixtape.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mixtape.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		23B7EAE93010C99700109B7F /* MixtapeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MixtapeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		23B7EAF33010C99700109B7F /* MixtapeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MixtapeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		23B7EB0A3010C9AE00109B7F /* MixtapeShare.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = MixtapeShare.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		2316BE76301A05A100C761AF /* Exceptions for "Mixtape" folder in "MixtapeShare" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				AppleMusicAPI.swift,
+				"GoogleService-Info.plist",
+				Models.swift,
+				MusicLinkResolver.swift,
+				Secrets.swift,
+				SharedContactsCache.swift,
+				SpotifyAPI.swift,
+				URLValidator.swift,
+			);
+			target = 23B7EB093010C9AE00109B7F /* MixtapeShare */;
+		};
+		23B7EB153010C9AE00109B7F /* Exceptions for "MixtapeShare" folder in "MixtapeShare" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 23B7EB093010C9AE00109B7F /* MixtapeShare */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		23B7EADE3010C99400109B7F /* Mixtape */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				2316BE76301A05A100C761AF /* Exceptions for "Mixtape" folder in "MixtapeShare" target */,
+			);
+			path = Mixtape;
+			sourceTree = "<group>";
+		};
+		23B7EAEC3010C99700109B7F /* MixtapeTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = MixtapeTests;
+			sourceTree = "<group>";
+		};
+		23B7EAF63010C99700109B7F /* MixtapeUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = MixtapeUITests;
+			sourceTree = "<group>";
+		};
+		23B7EB0B3010C9AE00109B7F /* MixtapeShare */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				23B7EB153010C9AE00109B7F /* Exceptions for "MixtapeShare" folder in "MixtapeShare" target */,
+			);
+			path = MixtapeShare;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		23B7EAD93010C99400109B7F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				232395B4303706DC008CEFE1 /* FirebaseMessaging in Frameworks */,
+				23B7EB343010D3C500109B7F /* FirebaseAI in Frameworks */,
+				23B7EB3B3010D90F00109B7F /* FirebaseFirestore in Frameworks */,
+				23B7EB363010D3C500109B7F /* FirebaseAuth in Frameworks */,
+				23B7EB3D3010E0A900109B7F /* FirebaseAppCheck in Frameworks */,
+				23B7EB383010D3C500109B7F /* FirebaseStorage in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		23B7EAE63010C99700109B7F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		23B7EAF03010C99700109B7F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		23B7EB073010C9AE00109B7F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				232395BE30373D41008CEFE1 /* FirebaseAuth in Frameworks */,
+				232395C030373D41008CEFE1 /* FirebaseFirestore in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		23B7EAD33010C99400109B7F = {
+			isa = PBXGroup;
+			children = (
+				23B7EADE3010C99400109B7F /* Mixtape */,
+				23B7EAEC3010C99700109B7F /* MixtapeTests */,
+				23B7EAF63010C99700109B7F /* MixtapeUITests */,
+				23B7EB0B3010C9AE00109B7F /* MixtapeShare */,
+				23B7EB393010D90F00109B7F /* Frameworks */,
+				23B7EADD3010C99400109B7F /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		23B7EADD3010C99400109B7F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				23B7EADC3010C99400109B7F /* Mixtape.app */,
+				23B7EAE93010C99700109B7F /* MixtapeTests.xctest */,
+				23B7EAF33010C99700109B7F /* MixtapeUITests.xctest */,
+				23B7EB0A3010C9AE00109B7F /* MixtapeShare.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		23B7EB393010D90F00109B7F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		23B7EADB3010C99400109B7F /* Mixtape */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 23B7EAFD3010C99700109B7F /* Build configuration list for PBXNativeTarget "Mixtape" */;
+			buildPhases = (
+				23B7EAD83010C99400109B7F /* Sources */,
+				23B7EAD93010C99400109B7F /* Frameworks */,
+				23B7EADA3010C99400109B7F /* Resources */,
+				23B7EB193010C9AE00109B7F /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				23B7EB133010C9AE00109B7F /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				23B7EADE3010C99400109B7F /* Mixtape */,
+			);
+			name = Mixtape;
+			packageProductDependencies = (
+				23B7EB333010D3C500109B7F /* FirebaseAI */,
+				23B7EB353010D3C500109B7F /* FirebaseAuth */,
+				23B7EB373010D3C500109B7F /* FirebaseStorage */,
+				23B7EB3A3010D90F00109B7F /* FirebaseFirestore */,
+				23B7EB3C3010E0A900109B7F /* FirebaseAppCheck */,
+				232395B3303706DC008CEFE1 /* FirebaseMessaging */,
+			);
+			productName = Mixtape;
+			productReference = 23B7EADC3010C99400109B7F /* Mixtape.app */;
+			productType = "com.apple.product-type.application";
+		};
+		23B7EAE83010C99700109B7F /* MixtapeTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 23B7EB003010C99700109B7F /* Build configuration list for PBXNativeTarget "MixtapeTests" */;
+			buildPhases = (
+				23B7EAE53010C99700109B7F /* Sources */,
+				23B7EAE63010C99700109B7F /* Frameworks */,
+				23B7EAE73010C99700109B7F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				23B7EAEB3010C99700109B7F /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				23B7EAEC3010C99700109B7F /* MixtapeTests */,
+			);
+			name = MixtapeTests;
+			packageProductDependencies = (
+			);
+			productName = MixtapeTests;
+			productReference = 23B7EAE93010C99700109B7F /* MixtapeTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		23B7EAF23010C99700109B7F /* MixtapeUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 23B7EB033010C99700109B7F /* Build configuration list for PBXNativeTarget "MixtapeUITests" */;
+			buildPhases = (
+				23B7EAEF3010C99700109B7F /* Sources */,
+				23B7EAF03010C99700109B7F /* Frameworks */,
+				23B7EAF13010C99700109B7F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				23B7EAF53010C99700109B7F /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				23B7EAF63010C99700109B7F /* MixtapeUITests */,
+			);
+			name = MixtapeUITests;
+			packageProductDependencies = (
+			);
+			productName = MixtapeUITests;
+			productReference = 23B7EAF33010C99700109B7F /* MixtapeUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		23B7EB093010C9AE00109B7F /* MixtapeShare */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 23B7EB163010C9AE00109B7F /* Build configuration list for PBXNativeTarget "MixtapeShare" */;
+			buildPhases = (
+				23B7EB063010C9AE00109B7F /* Sources */,
+				23B7EB073010C9AE00109B7F /* Frameworks */,
+				23B7EB083010C9AE00109B7F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				23B7EB0B3010C9AE00109B7F /* MixtapeShare */,
+			);
+			name = MixtapeShare;
+			packageProductDependencies = (
+				232395BD30373D41008CEFE1 /* FirebaseAuth */,
+				232395BF30373D41008CEFE1 /* FirebaseFirestore */,
+			);
+			productName = MixtapeShare;
+			productReference = 23B7EB0A3010C9AE00109B7F /* MixtapeShare.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		23B7EAD43010C99400109B7F /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 2660;
+				LastUpgradeCheck = 2660;
+				TargetAttributes = {
+					23B7EADB3010C99400109B7F = {
+						CreatedOnToolsVersion = 26.6;
+					};
+					23B7EAE83010C99700109B7F = {
+						CreatedOnToolsVersion = 26.6;
+						TestTargetID = 23B7EADB3010C99400109B7F;
+					};
+					23B7EAF23010C99700109B7F = {
+						CreatedOnToolsVersion = 26.6;
+						TestTargetID = 23B7EADB3010C99400109B7F;
+					};
+					23B7EB093010C9AE00109B7F = {
+						CreatedOnToolsVersion = 26.6;
+					};
+				};
+			};
+			buildConfigurationList = 23B7EAD73010C99400109B7F /* Build configuration list for PBXProject "Mixtape" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 23B7EAD33010C99400109B7F;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				23B7EB323010D3C500109B7F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 23B7EADD3010C99400109B7F /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				23B7EADB3010C99400109B7F /* Mixtape */,
+				23B7EAE83010C99700109B7F /* MixtapeTests */,
+				23B7EAF23010C99700109B7F /* MixtapeUITests */,
+				23B7EB093010C9AE00109B7F /* MixtapeShare */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		23B7EADA3010C99400109B7F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		23B7EAE73010C99700109B7F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		23B7EAF13010C99700109B7F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		23B7EB083010C9AE00109B7F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		23B7EAD83010C99400109B7F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		23B7EAE53010C99700109B7F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		23B7EAEF3010C99700109B7F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		23B7EB063010C9AE00109B7F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		23B7EAEB3010C99700109B7F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 23B7EADB3010C99400109B7F /* Mixtape */;
+			targetProxy = 23B7EAEA3010C99700109B7F /* PBXContainerItemProxy */;
+		};
+		23B7EAF53010C99700109B7F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 23B7EADB3010C99400109B7F /* Mixtape */;
+			targetProxy = 23B7EAF43010C99700109B7F /* PBXContainerItemProxy */;
+		};
+		23B7EB133010C9AE00109B7F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 23B7EB093010C9AE00109B7F /* MixtapeShare */;
+			targetProxy = 23B7EB123010C9AE00109B7F /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		23B7EAFB3010C99700109B7F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = YWLW23LT6G;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.5;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		23B7EAFC3010C99700109B7F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = YWLW23LT6G;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.5;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		23B7EAFE3010C99700109B7F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Mixtape/Mixtape.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = YWLW23LT6G;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = io.brokenhands.apps.MixtapeApp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		23B7EAFF3010C99700109B7F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Mixtape/Mixtape.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = YWLW23LT6G;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = io.brokenhands.apps.MixtapeApp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		23B7EB013010C99700109B7F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = YWLW23LT6G;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = io.brokenhands.apps.MixtapeTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Mixtape.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Mixtape";
+			};
+			name = Debug;
+		};
+		23B7EB023010C99700109B7F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = YWLW23LT6G;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = io.brokenhands.apps.MixtapeTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Mixtape.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Mixtape";
+			};
+			name = Release;
+		};
+		23B7EB043010C99700109B7F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = YWLW23LT6G;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = io.brokenhands.apps.MixtapeUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Mixtape;
+			};
+			name = Debug;
+		};
+		23B7EB053010C99700109B7F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = YWLW23LT6G;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = io.brokenhands.apps.MixtapeUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Mixtape;
+			};
+			name = Release;
+		};
+		23B7EB173010C9AE00109B7F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = MixtapeShare/MixtapeShare.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = YWLW23LT6G;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MixtapeShare/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = MixtapeShare;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = io.brokenhands.apps.MixtapeApp.MixtapeShare;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		23B7EB183010C9AE00109B7F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = MixtapeShare/MixtapeShare.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = YWLW23LT6G;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MixtapeShare/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = MixtapeShare;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = io.brokenhands.apps.MixtapeApp.MixtapeShare;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		23B7EAD73010C99400109B7F /* Build configuration list for PBXProject "Mixtape" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				23B7EAFB3010C99700109B7F /* Debug */,
+				23B7EAFC3010C99700109B7F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		23B7EAFD3010C99700109B7F /* Build configuration list for PBXNativeTarget "Mixtape" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				23B7EAFE3010C99700109B7F /* Debug */,
+				23B7EAFF3010C99700109B7F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		23B7EB003010C99700109B7F /* Build configuration list for PBXNativeTarget "MixtapeTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				23B7EB013010C99700109B7F /* Debug */,
+				23B7EB023010C99700109B7F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		23B7EB033010C99700109B7F /* Build configuration list for PBXNativeTarget "MixtapeUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				23B7EB043010C99700109B7F /* Debug */,
+				23B7EB053010C99700109B7F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		23B7EB163010C9AE00109B7F /* Build configuration list for PBXNativeTarget "MixtapeShare" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				23B7EB173010C9AE00109B7F /* Debug */,
+				23B7EB183010C9AE00109B7F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		23B7EB323010D3C500109B7F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 12.16.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		232395B3303706DC008CEFE1 /* FirebaseMessaging */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 23B7EB323010D3C500109B7F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseMessaging;
+		};
+		232395BD30373D41008CEFE1 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 23B7EB323010D3C500109B7F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		232395BF30373D41008CEFE1 /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 23B7EB323010D3C500109B7F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+		23B7EB333010D3C500109B7F /* FirebaseAI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 23B7EB323010D3C500109B7F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAI;
+		};
+		23B7EB353010D3C500109B7F /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 23B7EB323010D3C500109B7F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		23B7EB373010D3C500109B7F /* FirebaseStorage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 23B7EB323010D3C500109B7F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseStorage;
+		};
+		23B7EB3A3010D90F00109B7F /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 23B7EB323010D3C500109B7F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+		23B7EB3C3010E0A900109B7F /* FirebaseAppCheck */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 23B7EB323010D3C500109B7F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAppCheck;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = 23B7EAD43010C99400109B7F /* Project object */;
+}
