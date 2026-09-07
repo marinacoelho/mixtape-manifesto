@@ -76,7 +76,10 @@ struct ChatView: View {
                         }
                     }
                 }
-                
+                // Open at the newest message; the initial count change fires before
+                // rows are laid out, so rely on the scroll anchor for first render
+                .defaultScrollAnchor(.bottom)
+
                 // Link-Only Composer
                 VStack(spacing: 8) {
                     // Validation Badge

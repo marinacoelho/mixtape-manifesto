@@ -11,9 +11,10 @@ struct ContactListView: View {
     @Environment(AuthManager.self) var authManager
     @State private var firestoreManager = FirestoreManager()
     @State private var showAddContactModal = false
-    @State private var selectedContact: UserContact? = nil
-    
+    @State private var navPath: [UserContact] = []
+
     var body: some View {
+        NavigationStack(path: $navPath) {
         ZStack {
             Color(red: 0.05, green: 0.05, blue: 0.08).ignoresSafeArea()
             
@@ -142,7 +143,7 @@ struct ContactListView: View {
                             } else {
                                 LazyVStack(spacing: 12) {
                                     ForEach(firestoreManager.activeContacts) { contact in
-                                        NavigationLink(destination: ChatView(contact: contact)) {
+                                        NavigationLink(value: contact) {
                                             ContactCardRow(contact: contact)
                                         }
                                         .buttonStyle(PlainButtonStyle())
@@ -156,6 +157,10 @@ struct ContactListView: View {
                 }
             }
         }
+        .navigationDestination(for: UserContact.self) { contact in
+            ChatView(contact: contact)
+        }
+        }
         .sheet(isPresented: $showAddContactModal) {
             AddContactModalView(firestoreManager: firestoreManager)
         }
@@ -167,6 +172,27 @@ struct ContactListView: View {
                 firestoreManager.stopListeningContacts()
             }
         }
+        // Deep-link: a tapped notification stores the conversation id; jump to the
+        // matching chat. Re-checked when contacts finish loading, since a cold launch
+        // from a notification sets the id before the contact list is available.
+        .onChange(of: NotificationManager.shared.pendingConversationId, initial: true) {
+            openPendingConversationIfReady()
+        }
+        .onChange(of: firestoreManager.activeContacts) {
+            openPendingConversationIfReady()
+        }
+    }
+
+    /// Navigate to the chat for a pending notification once its contact is known.
+    private func openPendingConversationIfReady() {
+        guard let conversationId = NotificationManager.shared.pendingConversationId,
+              let contact = firestoreManager.activeContacts.first(where: { $0.conversationId == conversationId })
+        else { return }
+
+        if navPath.last?.conversationId != conversationId {
+            navPath = [contact]
+        }
+        NotificationManager.shared.pendingConversationId = nil
     }
 }
 
