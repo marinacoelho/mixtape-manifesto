@@ -6,11 +6,23 @@
 	<dict>
         <key>NSExtensionAttributes</key>
         <dict>
+            <!-- Activate when a shared attachment is a URL OR plain text. Apple Music
+                 vends a public.url (matched by the old WebURL shorthand), but Spotify
+                 shares the track link as plain text, which the shorthand never matched,
+                 so the extension was absent from Spotify's share sheet. Matching both
+                 covers either host; ShareViewController extracts the URL from whichever
+                 form is present (the text branch scans for an http link). -->
             <key>NSExtensionActivationRule</key>
-            <dict>
-                <key>NSExtensionActivationSupportsWebURLWithMaxCount</key>
-                <integer>1</integer>
-            </dict>
+            <string>SUBQUERY (
+                extensionItems,
+                $extensionItem,
+                SUBQUERY (
+                    $extensionItem.attachments,
+                    $attachment,
+                    ANY $attachment.registeredTypeIdentifiers UTI-CONFORMS-TO "public.url"
+                    || ANY $attachment.registeredTypeIdentifiers UTI-CONFORMS-TO "public.text"
+                ).@count &gt;= 1
+            ).@count &gt;= 1</string>
         </dict>
 		<key>NSExtensionMainStoryboard</key>
 		<string>MainInterface</string>
