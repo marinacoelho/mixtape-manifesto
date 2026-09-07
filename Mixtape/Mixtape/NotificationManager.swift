@@ -94,23 +94,24 @@ extension NotificationManager: MessagingDelegate {
 
 // MARK: - UNUserNotificationCenterDelegate
 extension NotificationManager: UNUserNotificationCenterDelegate {
-    // Show banners even while the app is in the foreground
-    nonisolated func userNotificationCenter(
+    // Show banners even while the app is in the foreground.
+    // Main-actor isolated (inherited from the class): the delegate's completion
+    // must run on the main thread, or UIKit aborts during the app's
+    // foreground-transition snapshot work when a backgrounded notification is tapped.
+    func userNotificationCenter(
         _ center: UNUserNotificationCenter,
         willPresent notification: UNNotification
     ) async -> UNNotificationPresentationOptions {
         [.banner, .sound, .badge]
     }
 
-    nonisolated func userNotificationCenter(
+    func userNotificationCenter(
         _ center: UNUserNotificationCenter,
         didReceive response: UNNotificationResponse
     ) async {
         let userInfo = response.notification.request.content.userInfo
         if let conversationId = userInfo["conversationId"] as? String {
-            await MainActor.run {
-                self.pendingConversationId = conversationId
-            }
+            pendingConversationId = conversationId
         }
     }
 }
