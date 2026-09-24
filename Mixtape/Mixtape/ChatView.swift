@@ -192,7 +192,7 @@ struct ChatView: View {
             .contentMarginsRemoved()
         }
         .task(id: contact.conversationId) {
-            firestoreManager.startListeningMessages(for: contact.conversationId)
+            await firestoreManager.listenToMessages(for: contact.conversationId)
         }
     }
 }

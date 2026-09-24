@@ -164,13 +164,19 @@ struct ContactListView: View {
         .sheet(isPresented: $showAddContactModal) {
             AddContactModalView(firestoreManager: firestoreManager)
         }
-        // SAFE PATTERN: Tie listener lifecycle to identity using .task(id:)
+        // SAFE PATTERN: Tie listener lifecycle to identity using .task(id:).
+        // Each stream runs for as long as its task does, so signing out (or
+        // leaving the view) cancels it and detaches the Firestore listener.
         .task(id: authManager.currentUser?.uid) {
-            if let uid = authManager.currentUser?.uid {
-                firestoreManager.startListeningContacts(for: uid)
-            } else {
-                firestoreManager.stopListeningContacts()
+            guard let uid = authManager.currentUser?.uid else {
+                firestoreManager.clearContacts()
+                return
             }
+            await firestoreManager.listenToContacts(for: uid)
+        }
+        .task(id: authManager.currentUser?.uid) {
+            guard let uid = authManager.currentUser?.uid else { return }
+            await firestoreManager.listenToIncomingRequests(for: uid)
         }
         // Deep-link: a tapped notification stores the conversation id; jump to the
         // matching chat. Re-checked when contacts finish loading, since a cold launch

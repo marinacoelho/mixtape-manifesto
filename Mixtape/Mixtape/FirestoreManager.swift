@@ -29,84 +29,71 @@ final class FirestoreManager {
     var errorMessage: String? = nil
     var isSending: Bool = false
     
-    private var contactsListener: ListenerRegistration?
-    private var requestsListener: ListenerRegistration?
-    private var messagesListener: ListenerRegistration?
-    
-    // MARK: - Lifecycle Cleanup
-    isolated deinit {
-        // Safe Pattern: Guarantee cleanup when View is destroyed and object is deallocated
-        stopAllListeners()
-    }
-    
-    private func stopAllListeners() {
-        // Note: Captured locally since deinit is isolated
-    }
-    
-    func stopListeningContacts() {
-        contactsListener?.remove()
-        contactsListener = nil
-        requestsListener?.remove()
-        requestsListener = nil
-    }
-    
-    func stopListeningMessages() {
-        messagesListener?.remove()
-        messagesListener = nil
+    /// Clears contact state when the signed-in user goes away, so a subsequent
+    /// sign-in never briefly shows the previous account's contacts
+    func clearContacts() {
+        activeContacts = []
+        incomingRequests = []
+        hasLoadedContacts = false
     }
     
     // MARK: - Listen to Contacts and Incoming Requests
-    func startListeningContacts(for userId: String) {
-        stopListeningContacts()
+    // Each of these consumes a Firestore snapshot AsyncSequence and runs until
+    // the calling task is cancelled. Cancellation tears down the underlying
+    // listener for us, so there is no registration to hold or remove by hand.
+    
+    func listenToContacts(for userId: String) async {
         hasLoadedContacts = false
-
-        // Active Contacts
-        contactsListener = db.collection("contacts")
+        
+        let contacts = db.collection("contacts")
             .document(userId)
             .collection("user_contacts")
-            .addSnapshotListener { [weak self] snapshot, error in
-                guard let self = self else { return }
-                // Even on error, stop showing the loading state
-                self.hasLoadedContacts = true
-                guard let documents = snapshot?.documents else {
-                    if let error = error { print("Error listening contacts: \(error)") }
-                    return
-                }
-                self.activeContacts = documents.compactMap { try? $0.data(as: UserContact.self) }
+        
+        do {
+            for try await snapshot in contacts.snapshots {
+                hasLoadedContacts = true
+                activeContacts = snapshot.documents.compactMap { try? $0.data(as: UserContact.self) }
                 // Mirror contacts into the App Group so the share extension can list them
-                SharedContactsCache.save(self.activeContacts.map {
+                SharedContactsCache.save(activeContacts.map {
                     SharedContact(id: $0.contactUid, email: $0.contactEmail, name: $0.contactName, conversationId: $0.conversationId)
                 })
             }
-        
-        // Incoming Requests
-        requestsListener = db.collection("contact_requests")
+        } catch {
+            // A listener error is terminal, so the stream is done: stop showing
+            // the loading state and surface why the list is not updating
+            hasLoadedContacts = true
+            errorMessage = error.localizedDescription
+        }
+    }
+    
+    func listenToIncomingRequests(for userId: String) async {
+        let requests = db.collection("contact_requests")
             .whereField("toUid", isEqualTo: userId)
             .whereField("status", isEqualTo: "pending")
-            .addSnapshotListener { [weak self] snapshot, error in
-                guard let self = self, let documents = snapshot?.documents else {
-                    if let error = error { print("Error listening requests: \(error)") }
-                    return
-                }
-                self.incomingRequests = documents.compactMap { try? $0.data(as: ContactRequest.self) }
+        
+        do {
+            for try await snapshot in requests.snapshots {
+                incomingRequests = snapshot.documents.compactMap { try? $0.data(as: ContactRequest.self) }
             }
+        } catch {
+            errorMessage = error.localizedDescription
+        }
     }
     
     // MARK: - Listen to Messages (Link-Only Thread)
-    func startListeningMessages(for conversationId: String) {
-        stopListeningMessages()
-        
-        messagesListener = db.collection("conversations")
+    func listenToMessages(for conversationId: String) async {
+        let messagesQuery = db.collection("conversations")
             .document(conversationId)
             .collection("messages")
             .order(by: "timestamp", descending: false)
-            .addSnapshotListener { [weak self] snapshot, error in
-                guard let self = self, let documents = snapshot?.documents else {
-                    if let error = error { print("Error listening messages: \(error)") }
-                    return
-                }
-                self.messages = documents.compactMap { try? $0.data(as: Message.self) }
+        
+        do {
+            for try await snapshot in messagesQuery.snapshots {
+                messages = snapshot.documents.compactMap { try? $0.data(as: Message.self) }
             }
+        } catch {
+            errorMessage = error.localizedDescription
+        }
     }
     
     // MARK: - Contact Actions
