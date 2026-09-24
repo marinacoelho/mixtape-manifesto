@@ -26,6 +26,10 @@ final class FirestoreManager {
     var hasLoadedContacts: Bool = false
     var incomingRequests: [ContactRequest] = []
     var messages: [Message] = []
+    /// False until the first messages snapshot for the current conversation
+    /// arrives, so the chat can hold its scroll view back until it has history
+    /// to lay out (see ChatView)
+    var hasLoadedMessages: Bool = false
     var errorMessage: String? = nil
     var isSending: Bool = false
     
@@ -82,6 +86,12 @@ final class FirestoreManager {
     
     // MARK: - Listen to Messages (Link-Only Thread)
     func listenToMessages(for conversationId: String) async {
+        // Drop the previous conversation's messages up front: a deep link can
+        // swap conversations on a ChatView that is already on screen, and its
+        // history must not linger while the new listener spins up
+        messages = []
+        hasLoadedMessages = false
+
         let messagesQuery = db.collection("conversations")
             .document(conversationId)
             .collection("messages")
@@ -90,8 +100,12 @@ final class FirestoreManager {
         do {
             for try await snapshot in messagesQuery.snapshots {
                 messages = snapshot.documents.compactMap { try? $0.data(as: Message.self) }
+                hasLoadedMessages = true
             }
         } catch {
+            // A listener error is terminal, so stop showing the loading state
+            // and surface why no messages arrived
+            hasLoadedMessages = true
             errorMessage = error.localizedDescription
         }
     }

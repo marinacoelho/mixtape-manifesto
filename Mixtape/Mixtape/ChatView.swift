@@ -27,61 +27,83 @@ struct ChatView: View {
             
             VStack(spacing: 0) {
                 // Message History Stream
-                ScrollView {
-                    ScrollViewReader { proxy in
-                        VStack(spacing: 20) {
-                            if firestoreManager.messages.isEmpty {
-                                VStack(spacing: 16) {
-                                    ZStack {
-                                        Circle()
-                                            .fill(Color.white.opacity(0.05))
-                                            .frame(width: 70, height: 70)
-                                        Image(systemName: "sparkles.tv")
-                                            .font(.system(size: 32))
-                                            .foregroundStyle(Color.purple)
+                if !firestoreManager.hasLoadedMessages {
+                    // Hold the stream back until the first snapshot lands.
+                    // .defaultScrollAnchor only positions a scroll view on its
+                    // first layout, so building it while `messages` is still
+                    // empty and growing it afterwards can leave the chat pinned
+                    // to the top — which is what a deep-linked chat opened from
+                    // a notification used to do.
+                    VStack(spacing: 16) {
+                        ProgressView()
+                            .tint(Color.pink)
+                            .controlSize(.large)
+                        Text("Loading messages...")
+                            .font(.subheadline)
+                            .foregroundStyle(.white.opacity(0.5))
+                    }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                } else {
+                    ScrollView {
+                        ScrollViewReader { proxy in
+                            VStack(spacing: 20) {
+                                if firestoreManager.messages.isEmpty {
+                                    VStack(spacing: 16) {
+                                        ZStack {
+                                            Circle()
+                                                .fill(Color.white.opacity(0.05))
+                                                .frame(width: 70, height: 70)
+                                            Image(systemName: "sparkles.tv")
+                                                .font(.system(size: 32))
+                                                .foregroundStyle(Color.purple)
+                                        }
+                                        
+                                        Text("The Streaming Wars End Here")
+                                            .font(.headline)
+                                            .foregroundStyle(.white.opacity(0.9))
+                                        
+                                        Text("Paste a Spotify or Apple Music link below. Mixtape automatically finds the matching track and renders launch buttons for both platforms!")
+                                            .font(.caption)
+                                            .foregroundStyle(.white.opacity(0.5))
+                                            .multilineTextAlignment(.center)
+                                            .padding(.horizontal, 40)
                                     }
-                                    
-                                    Text("The Streaming Wars End Here")
-                                        .font(.headline)
-                                        .foregroundStyle(.white.opacity(0.9))
-                                    
-                                    Text("Paste a Spotify or Apple Music link below. Mixtape automatically finds the matching track and renders launch buttons for both platforms!")
-                                        .font(.caption)
-                                        .foregroundStyle(.white.opacity(0.5))
-                                        .multilineTextAlignment(.center)
-                                        .padding(.horizontal, 40)
-                                }
-                                .frame(maxWidth: .infinity)
-                                .padding(.vertical, 60)
-                            } else {
-                                ForEach(firestoreManager.messages) { message in
-                                    let isMe = message.senderUid == authManager.currentUser?.uid
-                                    HStack {
-                                        if isMe { Spacer(minLength: 28) }
-                                        MixtapeCardView(message: message, isOutgoing: isMe)
-                                        if !isMe { Spacer(minLength: 28) }
+                                    .frame(maxWidth: .infinity)
+                                    .padding(.vertical, 60)
+                                } else {
+                                    ForEach(firestoreManager.messages) { message in
+                                        let isMe = message.senderUid == authManager.currentUser?.uid
+                                        HStack {
+                                            if isMe { Spacer(minLength: 28) }
+                                            MixtapeCardView(message: message, isOutgoing: isMe)
+                                            if !isMe { Spacer(minLength: 28) }
+                                        }
+                                        .id(message.id)
                                     }
-                                    .id(message.id)
                                 }
                             }
-                        }
-                        .padding(.horizontal, 16)
-                        .padding(.vertical, 20)
-                        .onChange(of: firestoreManager.messages.count) {
-                            if let last = firestoreManager.messages.last {
-                                withAnimation {
-                                    proxy.scrollTo(last.id, anchor: .bottom)
+                            .padding(.horizontal, 16)
+                            .padding(.vertical, 20)
+                            // Follow along as later messages arrive. Keyed on the
+                            // newest id rather than the count so a send/receive
+                            // that leaves the count unchanged still scrolls.
+                            .onChange(of: firestoreManager.messages.last?.id) {
+                                if let last = firestoreManager.messages.last {
+                                    withAnimation {
+                                        proxy.scrollTo(last.id, anchor: .bottom)
+                                    }
                                 }
                             }
                         }
                     }
+                    // Open at the newest message. The scroll view is only built
+                    // once the history exists, so this anchor lands at the bottom
+                    // on its first layout however the chat was opened.
+                    .defaultScrollAnchor(.bottom)
+                    // Give the message stream more room: collapse the nav bar
+                    // while scrolling back through history
+                    .toolbarMinimizationBehavior(.onScrollDown, for: .navigationBar)
                 }
-                // Open at the newest message; the initial count change fires before
-                // rows are laid out, so rely on the scroll anchor for first render
-                .defaultScrollAnchor(.bottom)
-                // Give the message stream more room: collapse the nav bar while
-                // scrolling back through history
-                .toolbarMinimizationBehavior(.onScrollDown, for: .navigationBar)
 
                 // Link-Only Composer
                 VStack(spacing: 8) {
