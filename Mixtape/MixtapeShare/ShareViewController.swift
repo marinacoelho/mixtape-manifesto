@@ -9,6 +9,7 @@ import UIKit
 import SwiftUI
 import UniformTypeIdentifiers
 import FirebaseCore
+import FirebaseAppCheck
 import FirebaseAuth
 
 class ShareViewController: UIViewController {
@@ -18,7 +19,14 @@ class ShareViewController: UIViewController {
 
         // The extension is its own process, so Firebase needs configuring here
         // too. GoogleService-Info.plist is already a member of this target.
+        // App Check must be registered first, mirroring MixtapeApp, or the
+        // spotifyLookup function will reject the extension's calls.
         if FirebaseApp.app() == nil {
+            #if DEBUG
+            AppCheck.setAppCheckProviderFactory(AppCheckDebugProviderFactory())
+            #else
+            AppCheck.setAppCheckProviderFactory(DeviceCheckProviderFactory())
+            #endif
             FirebaseApp.configure()
         }
         // Read the auth session the main app stored in the shared keychain group

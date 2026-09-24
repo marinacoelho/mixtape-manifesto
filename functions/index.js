@@ -123,3 +123,6 @@ exports.notifyOnMixtape = onDocumentCreated(
     }
   }
 );
+
+// Spotify Web API proxy, so the client secret never ships in the app
+exports.spotifyLookup = require("./spotify").spotifyLookup;
