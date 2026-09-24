@@ -4,6 +4,10 @@
 <dict>
 	<key>aps-environment</key>
 	<string>development</string>
+	<key>com.apple.developer.devicecheck.app-attest-opt-in</key>
+	<array>
+		<string>CDhash</string>
+	</array>
 	<key>com.apple.security.application-groups</key>
 	<array>
 		<string>group.io.brokenhands.apps.MixtapeApp</string>

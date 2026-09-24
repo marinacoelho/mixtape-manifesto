@@ -33,11 +33,13 @@ struct MixtapeApp: App {
     @State private var authManager = {
         // The App Check factory must be registered before FirebaseApp.configure().
         // Debug builds use the debug provider (token registered in the Firebase
-        // console); release/TestFlight builds attest with real DeviceCheck.
+        // console); release/TestFlight builds attest with App Attest, which
+        // proves the request came from an unmodified copy of this app rather
+        // than merely from a real device (which is all DeviceCheck shows).
         #if DEBUG
         AppCheck.setAppCheckProviderFactory(AppCheckDebugProviderFactory())
         #else
-        AppCheck.setAppCheckProviderFactory(DeviceCheckProviderFactory())
+        AppCheck.setAppCheckProviderFactory(AppAttestProviderFactory())
         #endif
         FirebaseApp.configure()
         return AuthManager()

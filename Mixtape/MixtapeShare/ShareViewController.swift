@@ -24,7 +24,7 @@ class ShareViewController: UIViewController {
             #if DEBUG
             AppCheck.setAppCheckProviderFactory(AppCheckDebugProviderFactory())
             #else
-            AppCheck.setAppCheckProviderFactory(DeviceCheckProviderFactory())
+            AppCheck.setAppCheckProviderFactory(AppAttestProviderFactory())
             #endif
             FirebaseApp.configure()
         }
