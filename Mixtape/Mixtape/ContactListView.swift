@@ -164,6 +164,13 @@ struct ContactListView: View {
         .sheet(isPresented: $showAddContactModal) {
             AddContactModalView(firestoreManager: firestoreManager)
         }
+        // A listener error ends the stream, so the list is now frozen rather
+        // than merely stale — say so instead of failing silently
+        .alert("Couldn't load contacts", item: $firestoreManager.errorMessage) { _ in
+            Button("OK", role: .cancel) {}
+        } message: { message in
+            Text(message)
+        }
         // SAFE PATTERN: Tie listener lifecycle to identity using .task(id:).
         // Each stream runs for as long as its task does, so signing out (or
         // leaving the view) cancels it and detaches the Firestore listener.

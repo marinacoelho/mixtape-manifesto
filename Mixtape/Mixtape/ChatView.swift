@@ -194,5 +194,11 @@ struct ChatView: View {
         .task(id: contact.conversationId) {
             await firestoreManager.listenToMessages(for: contact.conversationId)
         }
+        // A listener error ends the stream, so new messages will stop arriving
+        .alert("Couldn't load messages", item: $firestoreManager.errorMessage) { _ in
+            Button("OK", role: .cancel) {}
+        } message: { message in
+            Text(message)
+        }
     }
 }
