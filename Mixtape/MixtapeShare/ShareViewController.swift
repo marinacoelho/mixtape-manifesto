@@ -7,7 +7,6 @@
 
 import UIKit
 import SwiftUI
-import UniformTypeIdentifiers
 import FirebaseCore
 import FirebaseAppCheck
 import FirebaseAuth
@@ -53,22 +52,26 @@ class ShareViewController: UIViewController {
         for item in extensionItems {
             if let attachments = item.attachments {
                 for provider in attachments {
-                    if provider.hasItemConformingToTypeIdentifier(UTType.url.identifier) {
-                        provider.loadItem(forTypeIdentifier: UTType.url.identifier, options: nil) { data, error in
-                            if let url = data as? URL {
+                    if provider.canLoadObject(ofClass: URL.self) {
+                        _ = provider.loadObject(ofClass: URL.self) { url, _ in
+                            if let url {
                                 completion(url.absoluteString)
-                                return
-                            } else if let urlString = data as? String {
-                                completion(urlString)
-                                return
+                            } else {
+                                // Some apps register a public.url representation
+                                // that only coerces to a string, so don't give
+                                // up until that has been tried too
+                                _ = provider.loadObject(ofClass: String.self) { text, _ in
+                                    completion(text)
+                                }
                             }
                         }
                         return
-                    } else if provider.hasItemConformingToTypeIdentifier(UTType.text.identifier) {
-                        provider.loadItem(forTypeIdentifier: UTType.text.identifier, options: nil) { data, error in
-                            if let text = data as? String, text.contains("http") {
+                    } else if provider.canLoadObject(ofClass: String.self) {
+                        _ = provider.loadObject(ofClass: String.self) { text, _ in
+                            if let text, text.contains("http") {
                                 completion(text)
-                                return
+                            } else {
+                                completion(nil)
                             }
                         }
                         return

@@ -79,6 +79,9 @@ struct ChatView: View {
                 // Open at the newest message; the initial count change fires before
                 // rows are laid out, so rely on the scroll anchor for first render
                 .defaultScrollAnchor(.bottom)
+                // Give the message stream more room: collapse the nav bar while
+                // scrolling back through history
+                .toolbarMinimizationBehavior(.onScrollDown, for: .navigationBar)
 
                 // Link-Only Composer
                 VStack(spacing: 8) {
@@ -185,6 +188,8 @@ struct ChatView: View {
                         .foregroundStyle(.white)
                 }
             }
+            // Reclaim the default item margins so longer contact names fit
+            .contentMarginsRemoved()
         }
         .task(id: contact.conversationId) {
             firestoreManager.startListeningMessages(for: contact.conversationId)

@@ -8,6 +8,15 @@
 import SwiftUI
 
 struct MixtapeCardView: View {
+    // Artwork URLs are immutable CDN assets, so give them a generous cache of
+    // their own rather than sharing the shared session's much smaller one.
+    private static let artworkSession: URLSession = {
+        let configuration = URLSessionConfiguration.default
+        configuration.urlCache = URLCache(memoryCapacity: 32 * 1024 * 1024,
+                                          diskCapacity: 128 * 1024 * 1024)
+        return URLSession(configuration: configuration)
+    }()
+
     let message: Message
     let isOutgoing: Bool
     @Environment(\.openURL) var openURL
@@ -17,7 +26,9 @@ struct MixtapeCardView: View {
             // Album Artwork & Header
             ZStack(alignment: .bottomLeading) {
                 if let urlString = message.metadata.artworkUrl, let url = URL(string: urlString) {
-                    AsyncImage(url: url) { phase in
+                    // .returnCacheDataElseLoad: artwork never changes for a
+                    // given URL, so a cache hit should skip the network entirely
+                    AsyncImage(request: URLRequest(url: url, cachePolicy: .returnCacheDataElseLoad)) { phase in
                         switch phase {
                         case .empty:
                             ZStack {
@@ -37,6 +48,7 @@ struct MixtapeCardView: View {
                             FallbackArtworkView()
                         }
                     }
+                    .asyncImageURLSession(Self.artworkSession)
                 } else {
                     FallbackArtworkView()
                 }

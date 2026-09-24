@@ -41,12 +41,15 @@ enum ShareSender {
         )
 
         // Await the server acknowledgement: the extension process can be
-        // killed right after dismissal, so a queued-but-unsent write is lost
+        // killed right after dismissal, so a queued-but-unsent write is lost.
+        // The Codable setData(from:) overload is synchronous and returns before
+        // the write lands, so encode by hand and use the async setData(_:).
         let db = Firestore.firestore(database: SharedConfig.firestoreDatabaseID)
+        let encoded = try Firestore.Encoder().encode(message)
         try await db.collection("conversations")
             .document(contact.conversationId)
             .collection("messages")
             .document(msgId)
-            .setData(from: message)
+            .setData(encoded)
     }
 }
